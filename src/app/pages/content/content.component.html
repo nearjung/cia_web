@@ -1,0 +1,55 @@
+<div class="header">
+    <label><i class="fas fa-play"></i> {{ animeData.text }}</label>
+</div>
+
+<div class="row">
+    <div class="col-md-3 col-sm-4 col-12 text-center mb-2 d-none d-sm-block">
+        <img src="{{ animeData.pic }}">
+    </div>
+    <div class="col-md-9 col-sm-8 col-12 mb-2 d-none d-sm-block">
+        <p>
+            เรื่องย่อ : <br>
+            {{ animeData.summary }}
+        </p>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" [src]="animeData.select.link | safe" allowfullscreen></iframe>
+        </div>
+
+        <label class="mt-2">{{ animeData.select.text + ' ตอนที่ ' + animeData.select.ep + ' ' + animeData.select.type }}</label>
+
+    </div>
+</div>
+
+<div class="row">
+    <div *ngFor="let item of toonList" class="col-lg-3 col-sm-3 col-6">
+        <div class="card card-toon" (click)="episode(item)">
+            <img src="{{ item.pic }}" class="card-img-top">
+            <div class="card-body">
+                <p class="card-text">{{ item.text + ' ตอนที่ ' + item.ep + ' ' + item.type }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end m-0">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
