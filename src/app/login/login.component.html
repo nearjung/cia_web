@@ -1,0 +1,16 @@
+<loading [enable]="isLoading"></loading>
+
+<div class="login_div">
+    <div class="login_tbl col-sm-5">
+        <div class="mt-2" style="font-size: 1.1rem; text-align: center;">LOGIN</div>
+        <hr style="border: 1px solid rgb(124, 124, 124);"><input [(ngModel)]="email" type="email" placeholder="E-mail" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="password" type="password" placeholder="Password" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <button class="form_btn mb-2" (click)="login()">Login</button>
+        <div class="row">
+            <div class="col-sm-6 text-center mb-3 mt-2">ลืมรหัสผ่าน</div>
+            <div class="col-sm-6 text-center mb-3 mt-2">
+                <div class="register-link">สมัครสมาชิก</div>
+            </div>
+        </div>
+    </div>
+</div>

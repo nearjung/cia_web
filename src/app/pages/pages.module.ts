@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { PagesRoutingModule } from './pages-routing.module';
-import { MainModule } from './main/main.module';
-import { ContentModule } from './content/content.module';
+import { HomeModule } from '../home/home.module';
+import { PersonalModule } from './search/personal/personal.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     PagesRoutingModule,
-    MainModule,
-    ContentModule,
+    HomeModule,
+    PersonalModule
   ]
 })
 export class PagesModule { }

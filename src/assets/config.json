@@ -1,0 +1,6 @@
+{
+    "setting": {
+        "endPointWeb": "http://localhost:9000/",
+        "version": "1.0.0"
+    }
+}
