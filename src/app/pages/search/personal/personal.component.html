@@ -49,55 +49,55 @@
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">รหัสบัตรประชาชน</th>
+                  <th scope="row" style="text-align: right;">รหัสบัตรประชาชน</th>
                   <td>{{ personInfo.IDCard }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">ชื่อ-นามสกุล</th>
+                  <th scope="row" style="text-align: right;">ชื่อ-นามสกุล</th>
                   <td>{{ personInfo.CTitle }}{{ personInfo.CFname }} {{ personInfo.CLname }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">อายุ</th>
+                  <th scope="row" style="text-align: right;">อายุ</th>
                   <td>{{ year - personInfo.BYear }} ปี</td>
                 </tr>
                 <tr>
-                  <th scope="row">วัน/เดือน/ปี เกิด</th>
+                  <th scope="row" style="text-align: right;">วัน/เดือน/ปี เกิด</th>
                   <td>{{ personInfo.DOB }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">ที่อยู่</th>
+                  <th scope="row" style="text-align: right;">ที่อยู่</th>
                   <td>{{ (personInfo.HouseNo)?'บ้านเลขที่ : ' + personInfo.HouseNo:'' }} {{ (personInfo.Moo)?'หมู่ : ' + personInfo.Moo:'' }} {{ (personInfo.Trok)?'ตรอก : ' + personInfo.Trok:'' }}
                     {{ (personInfo.Soi)?'ซอย : ' + personInfo.Soi:'' }} {{ (personInfo.Street)?'ถนน : ' + personInfo.Street:'' }} {{ (personInfo.Subdistrict)?'ตำบล : ' + personInfo.Subdistrict:'' }}
                     {{ (personInfo.District)?'อำเภอ : ' + personInfo.District:'' }} {{ (personInfo.Province)?'จังหวัด : ' + personInfo.Province:'' }}  {{ (personInfo.PostalCode)?'รหัสไปรษณีย์ : ' + personInfo.PostalCode:'' }}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">พาหนะ</th>
+                  <th scope="row" style="text-align: right;">พาหนะ</th>
                   <td><span *ngFor="let vehicle of personInfo.vehicle">รถยี่ห้อ : {{ vehicle.BRAND_D }} เลขทะเบียน {{ vehicle.PLATE1 + vehicle.PLATE2 }} {{ vehicle.OFF_PROV_D }}<br></span></td>
                 </tr>
                 <tr>
-                  <th scope="row">เบอร์ติดต่อ</th>
+                  <th scope="row" style="text-align: right;">เบอร์ติดต่อ</th>
                   <td>เบอร์โทรศัพท์ : {{ (contact.MobilePhone)?contact.MobilePhone:'' }}<br>
                   เบอร์โทรศัพท์บ้าน : {{ (contact.HomePhone)?contact.HomePhone:'' }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">ระดับการศึกษา</th>
+                  <th scope="row" style="text-align: right;">ระดับการศึกษา</th>
                   <td>{{ (contact.EducationLevelThaiDesc)?contact.EducationLevelThaiDesc:'' }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">อีเมล</th>
+                  <th scope="row" style="text-align: right;">อีเมล</th>
                   <td>{{ (contact.EMAIL)?contact.EMAIL:''}}</td>
                 </tr>
                 <tr>
-                  <th scope="row">ชื่อที่ทำงานปัจจุบัน</th>
+                  <th scope="row" style="text-align: right;">ชื่อที่ทำงานปัจจุบัน</th>
                   <td>{{ workplace.company }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">วันที่เริ่มงาน</th>
+                  <th scope="row" style="text-align: right;">วันที่เริ่มงาน</th>
                   <td>{{ workplace.emp_date }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">ที่อยู่บริษัท</th>
+                  <th scope="row" style="text-align: right;">ที่อยู่บริษัท</th>
                   <td>{{ workplace.address1 + workplace.address2 }}</td>
                 </tr>
               </tbody>

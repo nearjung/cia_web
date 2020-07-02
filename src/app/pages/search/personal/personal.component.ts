@@ -37,6 +37,7 @@ export class PersonalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading(false);
   }
 
   onSubmit() {
