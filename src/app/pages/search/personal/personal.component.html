@@ -1,8 +1,5 @@
-<loading [enable]="isLoading"></loading>
-
-<div class="row" style="margin-top: 50px;">
-  <div class="col-sm d-flex justify-content-center">
-    <div class="col-sm-2">
+<div class="row d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="col-sm-2 mb-1">
       <div class="bg-black p-2">
         <div class="text-center">
           <label class="m-0" style="font-size: 1.1rem;">Personal Search</label>
@@ -18,10 +15,96 @@
     </div>
     <div class="col-sm-8">
       <div class="bg-black p-2">
-        <div class="text-center" style="margin:20px;">
-          Please select menu
+        <div style="margin:20px;">
+          <div *ngIf="!dataTbl" class="table-responsive-sm">
+            <table class="table table-striped table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">รหัสบัตรประชาชน</th>
+                  <th scope="col">ชื่อ-นามสกุล</th>
+                  <th scope="col">เพศ</th>
+                  <th scope="col">อายุ</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of dataList">
+                  <th scope="row">{{data.IDCard}}</th>
+                  <td>{{ data.CTitle }}{{ data.CFname }} {{ data.CLname }}</td>
+                  <td>{{ data.Gender }}</td>
+                  <td>{{ year - data.BYear }}</td>
+                  <td><button type="button" class="btn btn-warning" (click)="userInfo(data.IDCard)">Detail</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="dataTbl" class="table-responsive-sm">
+            <table class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">หัวข้อ</th>
+                  <th scope="col">รายละเอียด</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">รหัสบัตรประชาชน</th>
+                  <td>{{ personInfo.IDCard }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">ชื่อ-นามสกุล</th>
+                  <td>{{ personInfo.CTitle }}{{ personInfo.CFname }} {{ personInfo.CLname }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">อายุ</th>
+                  <td>{{ year - personInfo.BYear }} ปี</td>
+                </tr>
+                <tr>
+                  <th scope="row">วัน/เดือน/ปี เกิด</th>
+                  <td>{{ personInfo.DOB }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">ที่อยู่</th>
+                  <td>{{ (personInfo.HouseNo)?'บ้านเลขที่ : ' + personInfo.HouseNo:'' }} {{ (personInfo.Moo)?'หมู่ : ' + personInfo.Moo:'' }} {{ (personInfo.Trok)?'ตรอก : ' + personInfo.Trok:'' }}
+                    {{ (personInfo.Soi)?'ซอย : ' + personInfo.Soi:'' }} {{ (personInfo.Street)?'ถนน : ' + personInfo.Street:'' }} {{ (personInfo.Subdistrict)?'ตำบล : ' + personInfo.Subdistrict:'' }}
+                    {{ (personInfo.District)?'อำเภอ : ' + personInfo.District:'' }} {{ (personInfo.Province)?'จังหวัด : ' + personInfo.Province:'' }}  {{ (personInfo.PostalCode)?'รหัสไปรษณีย์ : ' + personInfo.PostalCode:'' }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">พาหนะ</th>
+                  <td><span *ngFor="let vehicle of personInfo.vehicle">รถยี่ห้อ : {{ vehicle.BRAND_D }} เลขทะเบียน {{ vehicle.PLATE1 + vehicle.PLATE2 }} {{ vehicle.OFF_PROV_D }}<br></span></td>
+                </tr>
+                <tr>
+                  <th scope="row">เบอร์ติดต่อ</th>
+                  <td>เบอร์โทรศัพท์ : {{ (contact.MobilePhone)?contact.MobilePhone:'' }}<br>
+                  เบอร์โทรศัพท์บ้าน : {{ (contact.HomePhone)?contact.HomePhone:'' }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">ระดับการศึกษา</th>
+                  <td>{{ (contact.EducationLevelThaiDesc)?contact.EducationLevelThaiDesc:'' }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">อีเมล</th>
+                  <td>{{ (contact.EMAIL)?contact.EMAIL:''}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">ชื่อที่ทำงานปัจจุบัน</th>
+                  <td>{{ workplace.company }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">วันที่เริ่มงาน</th>
+                  <td>{{ workplace.emp_date }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">ที่อยู่บริษัท</th>
+                  <td>{{ workplace.address1 + workplace.address2 }}</td>
+                </tr>
+              </tbody>
+            </table>            
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
 </div>
