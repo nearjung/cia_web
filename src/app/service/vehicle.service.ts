@@ -9,13 +9,13 @@ import { ConfigServerService } from '../core/config-server.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalService {
+export class VehicleService {
 
   constructor(private httpClient: HttpClient, private configService: ConfigServerService) { }
 
-  public getPersonal(firstname: string, lastname: string = '', membId: string) {
-    let params = '?firstname=' + firstname + '&lastname=' + lastname + '&membId=' + membId;
-    return this.httpClient.get<any>(this.configService.getAPI('api/personal/get.php') + params).pipe(
+  public getVehicle(memberid: string, type: string, searchTxt: string) {
+    let params = '?memberid=' + memberid + '&type=' + type + '&searchTxt=' + searchTxt;
+    return this.httpClient.get<any>(this.configService.getAPI('api/vehicle/get.php') + params).pipe(
       map(respons => {
         return {
           serviceResult: respons
@@ -23,9 +23,9 @@ export class PersonalService {
       }));
   }
 
-  public getPersonalInfo(idCard: string, memberId: string, password: string) {
-    let params = '?idCard=' + idCard + '&memberId=' + memberId + '&password=' + password;
-    return this.httpClient.get<any>(this.configService.getAPI('api/personal/getPerson.php') + params).pipe(
+  public getVehicleInfo(memberId: string, password: string, plate1: string, plate2: string, numBody: string, numEng: string, mode: string) {
+    let params = '?memberId=' + memberId + '&password=' + password + '&plate1=' + plate1 + '&plate2=' + plate2 + '&numBody=' + numBody + '&numEng=' + numEng + '&mode=' + mode;
+    return this.httpClient.get<any>(this.configService.getAPI('api/vehicle/getCar.php') + params).pipe(
       map(respons => {
         return {
           serviceResult: respons
