@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 import { CompanyService } from '../../../service/company.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company',
@@ -16,12 +17,17 @@ export class CompanyComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   public dataTbl: boolean = false;
   public companyData = [];
+  public user: any = JSON.parse(localStorage.getItem("userData"));
+  public dataValue = [];
 
   constructor(
     private toast: ToastrService,
+    private router: Router,
     private CompanyService: CompanyService,
   ) {
-
+    if (!this.user) {
+      this.router.navigate(['/login']);
+    }
   }
 
   ngOnInit(): void {
@@ -34,7 +40,17 @@ export class CompanyComponent implements OnInit {
   }
 
   companyInfo(companyId) {
+    this.loading(true);
     this.dataTbl = true;
+    this.CompanyService.getCompanyInfo(this.user.member_id, this.user.password, companyId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.dataValue = result.serviceResult.value;
+      }
+      this.loading(false);
+    }, err => {
+      this.toast.error(err);
+      this.loading(false);
+    })
   }
 
   onSubmit() {

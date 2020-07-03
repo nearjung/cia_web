@@ -48,91 +48,104 @@
                     <tbody>
                         <tr>
                             <th scope="row" style="text-align: right;">ชื่อบริษัท</th>
-                            <td></td>
+                            <td>{{ dataValue.comp_name }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">หมายเลขผู้เสียภาษี</th>
-                            <td></td>
+                            <td>{{ dataValue.comp_id }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">ประเภทบริษัท</th>
-                            <td></td>
+                            <td>{{ dataValue.type_comp }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" style="text-align: right;">วันเริ่มดำเนินการ</th>
-                            <td></td>
+                            <th scope="row" style="text-align: right;">วันที่จดทะเบียน</th>
+                            <td>{{ dataValue.regist_date }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">รายละเอียดธุรกิจ</th>
-                            <td></td>
+                            <td>{{ dataValue.object_detail }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">สถานะ</th>
-                            <td></td>
+                            <td>{{ dataValue.status_comp }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">บอร์ดบริหารอื่นๆ</th>
-                            <td></td>
+                            <td><span *ngIf="dataValue.board_action_1th">{{ dataValue.board_action_1th }} <br></span>
+                                <span *ngIf="dataValue.board1">{{ dataValue.board1 }} <br></span>
+                                <span *ngIf="dataValue.board2">{{ dataValue.board2 }} <br></span>
+                                <span *ngIf="dataValue.board3">{{ dataValue.board3 }} <br></span>
+                                <span *ngIf="dataValue.board4">{{ dataValue.board4 }} <br></span>
+                                <span *ngIf="dataValue.board5">{{ dataValue.board5 }} <br></span>
+                                <span *ngIf="dataValue.board6">{{ dataValue.board6 }} <br></span>
+                                <span *ngIf="dataValue.board7">{{ dataValue.board7 }} <br></span>
+                                <span *ngIf="dataValue.board8">{{ dataValue.board8 }} <br></span>
+                                <span *ngIf="dataValue.board9">{{ dataValue.board9 }} <br></span>
+                                <span *ngIf="dataValue.board10">{{ dataValue.board10 }} <br></span>
+                                <span *ngIf="dataValue.board11">{{ dataValue.board11 }} <br></span>
+                                <span *ngIf="dataValue.board12">{{ dataValue.board12 }} <br></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">ทุนจดทะเบียน</th>
-                            <td></td>
+                            <td>{{ dataValue.capital | number }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">ที่ตั้งบริษัท</th>
-                            <td></td>
+                            <td>{{ dataValue.comp_address }} {{ dataValue.comp_address1 }} {{ dataValue.comp_address2 }} {{ dataValue.comp_address3 }} {{ dataValue.comp_address4 }} {{ dataValue.post_number }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">ปีที่ส่งงบ</th>
-                            <td></td>
+                            <td>{{ dataValue.send_money }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">เบอร์โทรศัพท์</th>
-                            <td></td>
+                            <td>{{ dataValue.t_tel1 }} {{ dataValue.t_tel2 }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">แฟกซ์</th>
-                            <td></td>
+                            <td>{{ dataValue.t_fax1 }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">อีเมล</th>
-                            <td></td>
+                            <td>{{ dataValue.email }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">เว็บไซต์</th>
-                            <td></td>
+                            <td>{{ dataValue.web }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">จำนวนพนักงาน</th>
-                            <td></td>
+                            <td>{{ dataValue.employee }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">งบปี</th>
-                            <td></td>
+                            <td>{{ dataValue.m_money_year }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">สินทรัพย์</th>
-                            <td></td>
+                            <td>{{ dataValue.m_money_year }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">หนี้สิน</th>
-                            <td></td>
+                            <td>{{ dataValue.m_debt | number }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">รายได้</th>
-                            <td></td>
+                            <td>{{ dataValue.m_revenue | number }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">รายจ่าย</th>
-                            <td></td>
+                            <td>{{ dataValue.m_expenditure | number }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">กำไร</th>
-                            <td></td>
+                            <td>{{ dataValue.m_profit | number }}</td>
                         </tr>
                         <tr>
                             <th scope="row" style="text-align: right;">วันที่อัพเดท</th>
-                            <td></td>
+                            <td>{{ dataValue.updatetime }}</td>
                         </tr>
                     </tbody>
                 </table>

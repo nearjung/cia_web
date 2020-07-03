@@ -23,4 +23,14 @@ export class CompanyService {
       }));
   }
 
+  public getCompanyInfo(memberId: string, password: string, compId: string) {
+    let params = '?memberId=' + memberId + '&password=' + password + '&compId=' + compId;
+    return this.httpClient.get<any>(this.configService.getAPI('api/company/getCompany.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
 }
