@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle.component.scss']
 })
 export class VehicleComponent implements OnInit {
+  public searchTxt: string;
+  public catagory: string = '0';
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+
   }
 
 }

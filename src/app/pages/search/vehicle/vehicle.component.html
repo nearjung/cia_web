@@ -1,1 +1,34 @@
-<p>vehicle works!</p>
+<div class="row d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="col-sm-2 mb-1">
+      <div class="bg-black p-2">
+        <div class="text-center">
+          <label class="m-0" style="font-size: 1.1rem;">Vehicle Search</label>
+          <hr style="border-color: rgb(49, 49, 49);">
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <select [(ngModel)]="catagory" class="form_select mb-2 ng-pristine">
+                <option value="0">= กรุณาเลือกข้อมูลที่ต้องการค้นหา =</option>
+                <option value="1">หมายเลขตัวถัง</option>
+                <option value="2">หมายเลขเครื่องยนต์</option>
+                <option value="3">ชื่อหรือนามสกุลเจ้าของ</option>
+                <option value="4">ทะเบียนรถ</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm"><input [(ngModel)]="this.searchTxt" type="text" class="form_txt mb-2" placeholder="ข้อมูลค้นหา"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm"><button class="form_btn" (click)="onSubmit()">ค้นหา</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="bg-black p-2">
+        <div class="text-center" style="margin:20px;">
+          Please select menu
+        </div>
+      </div>
+    </div>
+</div>
