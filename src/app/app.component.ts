@@ -20,7 +20,7 @@ export class AppComponent {
       { 'text': 'Company Search', 'link': 'company', 'active': '' },
       { 'text': 'Vehicle Search', 'link': 'vehicle', 'active': '' },
       { 'text': 'Search Tools', 'link': 'tool', 'active': '' },
-      { 'text': 'Admin Panel', 'link': '', 'active': '' },
+      { 'text': 'Admin Panel', 'link': 'admin', 'active': '' },
     ]
 
     if(!this.user) {
@@ -44,6 +44,8 @@ export class AppComponent {
       this.router.navigate(['/company']);
     } else if (page == "tool") {
       this.router.navigate(['/tool']);
+    } else if (page == "admin") {
+      this.router.navigate(['/admin']);
     }
   }
 }

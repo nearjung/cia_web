@@ -5,6 +5,7 @@ import { VehicleService } from '../../../service/vehicle.service';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
@@ -13,10 +14,12 @@ import { Subject } from 'rxjs';
 export class VehicleComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   public searchTxt: string;
-  public catagory: string = '0';
+  public searchTxt2: string;
+  public catagory = '0';
   public user: any = JSON.parse(localStorage.getItem("userData"));
   public dataTbl: boolean = false;
   public vehicleData = [];
+  public vehicle = [];
 
   constructor(
     private toast: ToastrService,
@@ -29,6 +32,7 @@ export class VehicleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading(false);
   }
 
   ngOnDestroy() {
@@ -37,24 +41,46 @@ export class VehicleComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading(true);
     this.dataTbl = false;
-    this.VehicleService.getVehicle(this.user.member_id, this.catagory, this.searchTxt).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+    this.VehicleService.getVehicle(this.user.member_id, this.catagory, this.searchTxt, this.searchTxt2).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         if (result.serviceResult.value && result.serviceResult.value.length > 0) {
+          this.toast.success("พบข้อมูลทั้งหมด : " + result.serviceResult.value.length);
           this.vehicleData = result.serviceResult.value;
         } else {
           this.toast.error("ไม่พบข้อมูลที่ค้นหา !");
         }
+        this.loading(false);
       } else {
         this.toast.error(result.serviceResult.text);
+        this.loading(false);
+      }
+    }, err => {
+      this.toast.error(err);
+      this.loading(false);
+    })
+  }
+
+  vehicleInfo(plate1: string, plate2: string, numbody: string = '', numengine: string = '', mode: string = 'car') {
+    this.dataTbl = true;
+    this.VehicleService.getVehicleInfo(this.user.member_id, this.user.password, plate1, plate2, numbody, numengine, mode).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.vehicle = result.serviceResult.value;
+      } else {
+        this.toast.error("เกิดข้อผิดพลาดขณะรันข้อมูล !");
       }
     }, err => {
       this.toast.error(err);
     })
   }
 
-  vehicleInfo(id) {
-
+  loading(show) {
+    if (show) {
+      eval("$('#hm-loading-box').show();");
+    } else {
+      eval("$('#hm-loading-box').fadeOut();");
+    }
   }
 
 }

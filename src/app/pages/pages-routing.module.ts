@@ -6,6 +6,7 @@ import { VehicleComponent } from './search/vehicle/vehicle.component';
 import { CompanyComponent } from './search/company/company.component';
 import { ToolComponent } from './search/tool/tool.component';
 import { LoginComponent } from '../login/login.component';
+import { MemberComponent } from '../pages/admin/member/member.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'company', component: CompanyComponent},
   { path: 'vehicle', component: VehicleComponent},
   { path: 'tool', component: ToolComponent},
+  { path: 'admin', component: MemberComponent},
   { path: 'login', component: LoginComponent},
 
 ];

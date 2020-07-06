@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./member.component.scss']
 })
 export class MemberComponent implements OnInit {
+  public filter;
+  public memberDataList = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    // 
+  }
+
+  getMember() {
+
   }
 
 }

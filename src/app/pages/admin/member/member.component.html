@@ -1,1 +1,36 @@
-<p>member works!</p>
+<div class="row d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="col-sm-2 mb-1">
+      <div class="bg-black p-2">
+        <div class="text-center">
+          <label class="m-0" style="font-size: 1.1rem;">Admin Panel</label>
+          <hr style="border-color: rgb(49, 49, 49);">
+        </div>
+
+        <div class="row">
+            <div class="col-sm"><button class="form_btn">สมาชิก</button></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm"><button class="form_btn">แก้ไขราคา</button></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm"><button class="form_btn">API-LOG</button></div>
+        </div>
+          
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="bg-black p-2">
+        <div class="text-center" style="margin:20px;">
+            <div class="row">
+                <div class="col-sm-3">
+                    <select [(ngModel)]="filter" class="form_select mb-2 ng-pristine">
+                        <option value="0">= Filter =</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
