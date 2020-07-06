@@ -140,4 +140,14 @@ export class MemberService {
       }));
   }
 
+  public getMenu(member_id) {
+    let params = '?member_id=' + member_id;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/getMenu.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
 }

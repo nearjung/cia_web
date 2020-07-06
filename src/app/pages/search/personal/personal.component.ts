@@ -4,6 +4,7 @@ import { PersonalService } from '../../../service/personal.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal',
@@ -27,8 +28,11 @@ export class PersonalComponent implements OnInit {
   constructor(
     private PersonalService: PersonalService,
     private toast: ToastrService,
+    private router: Router,
   ) {
-
+    if (!this.user) {
+      this.router.navigate(['/login']);
+    }
   }
 
   ngOnDestroy() {

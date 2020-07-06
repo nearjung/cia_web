@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MemberService } from './service/member.service';
 
 @Component({
   selector: 'app-root',
@@ -9,22 +10,37 @@ import { Router } from '@angular/router';
 export class AppComponent {
   public menu: any;
   title = 'ciaweb';
-  public user = localStorage.getItem("userData");
+  public user: any = JSON.parse(localStorage.getItem("userData"));
 
   constructor(
-    private router: Router
+    private router: Router,
+    private MemberService: MemberService
   ) {
-    this.menu = [
-      { 'text': 'Home', 'link': 'home', 'active': 'active' },
-      { 'text': 'Personal Search', 'link': 'personal', 'active': '' },
-      { 'text': 'Company Search', 'link': 'company', 'active': '' },
-      { 'text': 'Vehicle Search', 'link': 'vehicle', 'active': '' },
-      { 'text': 'Search Tools', 'link': 'tool', 'active': '' },
-      { 'text': 'Admin Panel', 'link': 'admin', 'active': '' },
-    ]
+    // this.menu = [
+    //   { 'text': 'Home', 'link': 'home', 'active': 'active' },
+    //   { 'text': 'Personal Search', 'link': 'personal', 'active': '' },
+    //   { 'text': 'Company Search', 'link': 'company', 'active': '' },
+    //   { 'text': 'Vehicle Search', 'link': 'vehicle', 'active': '' },
+    //   { 'text': 'Search Tools', 'link': 'tool', 'active': '' },
+    //   { 'text': 'Admin Panel', 'link': 'admin', 'active': '' },
+    // ]
 
-    if(!this.user) {
+
+
+    if (!this.user) {
       this.router.navigate(['/login']);
+    } else {
+      this.MemberService.getMenu(this.user.member_id).subscribe(result => {
+        if (result.serviceResult.status == "Success") {
+          this.menu = result.serviceResult.value;
+          for (var i in this.menu) {
+            this.menu[i].text = this.menu[i].menuName;
+            this.menu[i].link = this.menu[i].menuLink.replace("/", "");
+            this.menu[i].active = 'active';
+          }
+          this.menu.push({ 'text': 'Logout', 'link': 'login', 'active': '' });
+        }
+      })
     }
 
   }
@@ -46,6 +62,8 @@ export class AppComponent {
       this.router.navigate(['/tool']);
     } else if (page == "admin") {
       this.router.navigate(['/admin']);
+    } else if (page == "login") {
+      this.router.navigate(['/login']);
     }
   }
 }

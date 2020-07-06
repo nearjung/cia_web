@@ -6,12 +6,13 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as Parser from 'json2csv';
 import { DownloadFileService } from 'src/app/service/download.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-member',
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss'],
-  providers: [DownloadFileService]
+  providers: [DownloadFileService, DatePipe]
 })
 export class MemberComponent implements OnInit {
   private ngUnsubscribe = new Subject();
@@ -27,6 +28,7 @@ export class MemberComponent implements OnInit {
   public creditData = [];
   public menuInfo = [];
   public apiList = [];
+  public chubbList = new chubbData();
 
   // Field
   public menuName;
@@ -37,7 +39,8 @@ export class MemberComponent implements OnInit {
     private MemberService: MemberService,
     private toast: ToastrService,
     private router: Router,
-    private downloadService: DownloadFileService
+    private downloadService: DownloadFileService,
+    private datePipe: DatePipe
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
@@ -182,13 +185,39 @@ export class MemberComponent implements OnInit {
   getApiLog(cert) {
     this.MemberService.getApiLog(cert).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
-        return this.downloadService.downloadFile(result.serviceResult.value);
+        var value = result.serviceResult.value;
+        var val = [];
+
+        // for(var i = 0; i < value.length; i++) {
+        //   JSON
+        // }
+        if (cert == 'GACC369200') {
+          for (var index in value) {
+            value[index].PLATE1 = JSON.parse(value[index].data).PLATE1;
+            value[index].PLATE2 = JSON.parse(value[index].data).PLATE2;
+            value[index].PROVINCE = JSON.parse(value[index].data).PROVINCE;
+            value[index].createDate = this.datePipe.transform(value[index].createDate, 'yyyy-MM-dd hh:mm:ss');
+            value[index].status = value[index].status;
+          }
+          val = value;
+          return this.downloadService.downloadFile(val);
+        } else {
+          return this.downloadService.downloadFile(value);
+        }
       }
     }, err => {
       this.toast.error(err);
     })
   }
 
-  
 
+
+}
+
+export class chubbData {
+  public PLATE1: string;
+  public PLATE2: string;
+  public PROVINCE: string;
+  public createDate: string;
+  public status: string;
 }
