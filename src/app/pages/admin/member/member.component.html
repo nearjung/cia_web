@@ -29,7 +29,7 @@
                   <select [(ngModel)]="filterdata" class="form_select mb-2 ng-pristine" (change)="onMember($event.target.value)">
                     <option value="All">ทั้งหมด</option>
                     <option value="Confirm">สมาชิกที่ยืนยันแล้ว</option>
-                    <option value="NotConfirm">สมาชิกที่ยังไม่ยืนยันแล้ว</option>
+                    <option value="NotConfirm">สมาชิกที่ยังไม่ยืนยัน</option>
                   </select>
                 </div>
                 
@@ -48,7 +48,7 @@
                       <tr *ngFor="let data of filterMember">
                         <th scope="row">{{ data.idcard }}</th>
                         <td>{{ data.firstName }} {{ data.lastname }}</td>
-                        <td><button type="button" class="btn btn-warning" (click)="memberInfo(data.member_id)">Detail</button></td>
+                        <td><button type="button" class="btn btn-warning" (click)="memberInfo(data.member_id)">Detail</button>&nbsp;<button *ngIf="data.accActive == 0" type="button" class="btn btn-success" (click)="confirm(data.member_id)">Confirm</button></td>
                       </tr>
                     </tbody>
                   </table>

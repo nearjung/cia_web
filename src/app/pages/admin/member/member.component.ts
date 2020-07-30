@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import * as Parser from 'json2csv';
 import { DownloadFileService } from 'src/app/service/download.service';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-member',
@@ -193,6 +194,7 @@ export class MemberComponent implements OnInit {
         // }
         if (cert == 'GACC369200') {
           for (var index in value) {
+            value[index].data = null;
             value[index].PLATE1 = JSON.parse(value[index].data).PLATE1;
             value[index].PLATE2 = JSON.parse(value[index].data).PLATE2;
             value[index].PROVINCE = JSON.parse(value[index].data).PROVINCE;
@@ -210,7 +212,35 @@ export class MemberComponent implements OnInit {
     })
   }
 
-
+  confirm(memberId) {
+    if (!memberId) {
+      this.toast.error("เกิดข้อผิดพลาดขณะรันข้อมูล !");
+    } else {
+      Swal.fire({
+        title: 'ยืนยัน?',
+        text: "คุณต้องการยืนยันบัญชีนี้หรือไม่ ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
+      }).then((result) => {
+        if (result.value) {
+          this.MemberService.confirmUser(memberId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+            if (result.serviceResult.status == "Success") {
+              Swal.fire(
+                'ยืนยัน!',
+                'ยืนยันสำเร็จ !',
+                'success'
+              )
+              this.getMember();
+            }
+          })
+        }
+      })
+    }
+  }
 
 }
 

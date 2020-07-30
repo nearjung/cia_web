@@ -1,1 +1,92 @@
-<p>tool works!</p>
+<div class="row d-flex justify-content-center" style="margin-top: 50px;">
+    <div class="col-sm-2 mb-1">
+        <div class="bg-black p-2">
+            <div class="text-center"><label class="m-0" style="font-size: 1.1rem;">Search Tools</label>
+                <hr style="border-color: rgb(49, 49, 49);">
+                <div class="form-group text-left mb-2"><label class="label-search">เพศ</label>
+                    <select [(ngModel)]="gender" class="form_select" >
+                        <option value="">ไม่ระบุ</option>
+                        <option value="ชาย">ชาย</option>
+                        <option value="หญิง">หญิง</option>
+                    </select>
+                </div>
+                <div class="form-group text-left mb-2"><label class="label-search">ช่วงอายุ</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <select [(ngModel)]="age1" class="form_select">
+                                <option *ngFor="let item of [].constructor(101); let i = index" value="{{i}}">{{ i }}</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select [(ngModel)]="age2" class="form_select">
+                                <option *ngFor="let item of [].constructor(101); let i = index" value="{{i}}">{{ i }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-left mb-2"><label class="label-search">จังหวัดที่ อาศัย</label>
+                    <select [(ngModel)]="province" class="form_select" (change)="loadAmphure()">
+                        <option *ngFor="let data of provinceList" value="{{ data.ProvinceThai }}">{{ data.ProvinceThai }} </option>
+                    </select>
+                </div>
+                <div class="form-group text-left mb-2"><label class="label-search">อำเภอ/เขต ที่อาศัย</label>
+                    <select [(ngModel)]="amphure" class="form_select" (change)="loadTambon()">
+                        <option value=""></option>
+                        <option *ngFor="let data of amphureList" value="{{ data.DistrictThaiShort }}">{{ data.DistrictThaiShort }} </option>
+                    </select>
+                </div>
+                <div class="form-group text-left mb-2"><label class="label-search">ตำบล/แขวง ที่อาศัย</label>
+                    <select [(ngModel)]="tambon" class="form_select">
+                        <option value=""></option>
+                        <option *ngFor="let data of tambonList" value="{{ data.TambonThaiShort }}">{{ data.TambonThaiShort }} </option>
+                    </select>
+                </div>
+                <div class="form-group text-left mb-2"><label class="label-search">มีรถยนต์หรือไม่</label>
+                    <select [(ngModel)]="car" class="form_select">
+                        <option value="">ไม่ระบุ</option>
+                        <option value="มี">มี</option>
+                        <option value="ไม่มี">ไม่มี</option>
+                    </select></div>
+                    <div *ngIf="car == 'มี'" class="form-group text-left mb-2"><label class="label-search">รถซื้อไม่เกิน</label>
+                        <input [(ngModel)]="yearcar" type="text" placeholder="จำนวนปี" class="form_txt mb-2">
+                    </div>
+                <div class="form-group text-left mb-2"><label class="label-search">มีประกันสังคมหรือไม่</label>
+                    <select [(ngModel)]="ensure" class="form_select">
+                        <option value="">ไม่ระบุ</option>
+                        <option value="มี">มี</option>
+                        <option value="ไม่มี">ไม่มี</option>
+                    </select>
+                </div>
+                <div class="form-group text-left mb-2"><label class="label-search">มีอีเมลหรือไม่</label>
+                    <select [(ngModel)]="email" class="form_select">
+                        <option value="">ไม่ระบุ</option>
+                        <option value="มี">มี</option>
+                        <option value="ไม่มี">ไม่มี</option>
+                    </select></div>
+                <div class="form-group text-left mb-2"><label class="label-search">มีเบอร์โทรหรือไม่</label>
+                    <select [(ngModel)]="telephone" class="form_select">
+                        <option value="">ไม่ระบุ</option>
+                        <option value="มี">มี</option>
+                        <option value="ไม่มี">ไม่มี</option>
+                    </select></div>
+                <div class="form-group text-left mb-2"><label class="label-search">จำนวนข้อมูลที่ต้องการ</label>
+                    <input [(ngModel)]="countData" type="text" placeholder="จำนวนข้อมูลไม่เกิน" class="form_txt mb-2 "></div>
+                    <button (click)="search()" class="form_btn">ค้นหา</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="bg-black p-2">
+            <div class="text-center" style="margin:20px;">
+                <div *ngIf="countDataValue" class="row">
+                    <div class="col-sm">
+                        ค้นพบข้อมูลทั้งหมด {{ countDataValue | number }}<br>
+                        ข้อมูลที่ต้องการ {{ countData | number }} <br>
+                        Credit ที่ต้องใช้ทั้งหมด {{ countData * priceMenu | number }} Credit
+                        <button (click)="download()" class="form_btn">Download Files</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

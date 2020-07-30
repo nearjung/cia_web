@@ -150,4 +150,26 @@ export class MemberService {
       }));
   }
 
+  /** Admin Zone */
+  public confirmUser(membId) {
+    let params = '?membId=' + membId;
+    return this.httpClient.get<any>(this.configService.getAPI('api/admin/confirmUser.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public checkPoint(memberId, password, price) {
+    let params = '?memberId=' + memberId + '&password' + password + '&price=' + price;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/checkPoint.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+
+  }
+
 }

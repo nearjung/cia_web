@@ -16,16 +16,6 @@ export class AppComponent {
     private router: Router,
     private MemberService: MemberService
   ) {
-    // this.menu = [
-    //   { 'text': 'Home', 'link': 'home', 'active': 'active' },
-    //   { 'text': 'Personal Search', 'link': 'personal', 'active': '' },
-    //   { 'text': 'Company Search', 'link': 'company', 'active': '' },
-    //   { 'text': 'Vehicle Search', 'link': 'vehicle', 'active': '' },
-    //   { 'text': 'Search Tools', 'link': 'tool', 'active': '' },
-    //   { 'text': 'Admin Panel', 'link': 'admin', 'active': '' },
-    // ]
-
-
 
     if (!this.user) {
       this.router.navigate(['/login']);
