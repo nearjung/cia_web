@@ -24,7 +24,7 @@ export class ToolComponent implements OnInit {
   public informationList = [];
   public tierList = [];
 
-  // Field
+  // Personal Field
   public gender = '';
   public age1 = '';
   public age2 = '';
@@ -32,13 +32,27 @@ export class ToolComponent implements OnInit {
   public ensure = '';
   public email = '';
   public telephone = '';
-  public countData = '';
   public yearcar = '';
-
-
   public province = '';
   public amphure = '';
   public tambon = '';
+
+  // Company Field
+  public companyType: string;
+  public companyCapital: string;
+  public companyProfit: string;
+  public companyEmployee: string;
+
+  // Vehicle Field
+  public vehicleBrand: string;
+  public vehicleModel: string;
+  public vehicleRage1: string;
+  public vehicleRage2: string;
+  public vehicleProvince: string;
+
+
+  // Use All Field
+  public countData = '';
 
 
   public countDataValue;
@@ -50,10 +64,15 @@ export class ToolComponent implements OnInit {
   constructor(
     private toolService: ToolService,
     private toast: ToastrService,
-    private route: Router,
+    private router: Router,
     private memberService: MemberService,
     private downloadService: DownloadFileService,
   ) {
+    if (!this.user) {
+      this.router.navigate(['/login']);
+      location.reload();
+      return;
+    }
     this.memberService.getMenuById('5').subscribe(result => {
       if (result.serviceResult.status == "Success") {
         this.priceMenu = result.serviceResult.value.menuPrice;
@@ -64,6 +83,7 @@ export class ToolComponent implements OnInit {
   ngOnInit(): void {
     this.loadProvinces();
     this.loadTier();
+    this.loading(false);
   }
 
   ngOnDestroy() {
@@ -103,8 +123,13 @@ export class ToolComponent implements OnInit {
     })
   }
 
-  search() {
+  searchPersonal() {
     this.loading(true);
+    if(!this.countData) {
+      this.toast.error("กรุณากรอกจำนวนที่ต้องการ");
+      this.loading(false);
+      return;
+    }
     this.toolService.getSearch(this.user.member_id, this.user.password, this.gender, (this.age1)?this.age1:'1', (this.age2)?this.age2:'100', this.province, this.car, this.yearcar, '', '', this.ensure, this.email
       , this.telephone, this.countData, this.tambon, this.amphure).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         if (result.serviceResult.status == "Success") {
@@ -123,6 +148,14 @@ export class ToolComponent implements OnInit {
 
   download() {
     return this.downloadService.downloadFile(this.informationList);
+  }
+
+  searchCompany() {
+
+  }
+
+  searchVehicle() {
+    
   }
 
   loading(show) {

@@ -7,6 +7,7 @@ import { CompanyComponent } from './search/company/company.component';
 import { ToolComponent } from './search/tool/tool.component';
 import { LoginComponent } from '../login/login.component';
 import { MemberComponent } from '../pages/admin/member/member.component';
+import { ProfileComponent } from './member/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'tool', component: ToolComponent},
   { path: 'admin', component: MemberComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'profile', component: ProfileComponent }
 
 ];
 

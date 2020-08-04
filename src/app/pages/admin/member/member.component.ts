@@ -45,6 +45,8 @@ export class MemberComponent implements OnInit {
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
+      location.reload();
+      return;
     }
     this.getMember();
   }
@@ -194,7 +196,6 @@ export class MemberComponent implements OnInit {
         // }
         if (cert == 'GACC369200') {
           for (var index in value) {
-            value[index].data = null;
             value[index].PLATE1 = JSON.parse(value[index].data).PLATE1;
             value[index].PLATE2 = JSON.parse(value[index].data).PLATE2;
             value[index].PROVINCE = JSON.parse(value[index].data).PROVINCE;

@@ -19,6 +19,7 @@ export class AppComponent {
 
     if (!this.user) {
       this.router.navigate(['/login']);
+      return;
     } else {
       this.MemberService.getMenu(this.user.member_id).subscribe(result => {
         if (result.serviceResult.status == "Success") {
@@ -54,6 +55,8 @@ export class AppComponent {
       this.router.navigate(['/admin']);
     } else if (page == "login") {
       this.router.navigate(['/login']);
+    } else if (page == "profile") {
+      this.router.navigate(['profile']);
     }
   }
 }
