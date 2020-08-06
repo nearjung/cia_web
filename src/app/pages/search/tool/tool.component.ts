@@ -57,7 +57,7 @@ export class ToolComponent implements OnInit {
 
   public countDataValue;
 
-  public priceMenu;
+  public priceMenuPersonal;
 
   public user: any = JSON.parse(localStorage.getItem("userData"));
 
@@ -75,7 +75,7 @@ export class ToolComponent implements OnInit {
     }
     this.memberService.getMenuById('5').subscribe(result => {
       if (result.serviceResult.status == "Success") {
-        this.priceMenu = result.serviceResult.value.menuPrice;
+        this.priceMenuPersonal = result.serviceResult.value.menuPrice;
       }
     })
   }
@@ -147,7 +147,24 @@ export class ToolComponent implements OnInit {
   }
 
   download() {
-    return this.downloadService.downloadFile(this.informationList);
+    var price = this.countDataValue * this.priceMenuPersonal;
+    this.memberService.checkPoint(this.user.member_id, this.user.password, price).subscribe(result=>{
+      if(result.serviceResult.status == "Success") {
+        this.memberService.addCredit(this.user.email, price, 'reduce').subscribe(result=>{
+          if(result.serviceResult.status == "Success") {
+            return this.downloadService.downloadFile(this.informationList);
+          } else {
+            this.toast.error(result.serviceResult.text);
+          }
+        }, err=> {
+          console.log(err);
+        })
+      } else {
+        this.toast.error(result.serviceResult.text);
+      }
+    }, err=> {
+      console.log(err);
+    })
   }
 
   searchCompany() {
