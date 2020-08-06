@@ -22,7 +22,7 @@ export class VehicleComponent implements OnInit {
   public vehicleData = [];
   public vehicle = [];
   public provinceList = [];
-  public province: string;
+  public province: string = '';
 
   constructor(
     private toast: ToastrService,
@@ -59,6 +59,7 @@ export class VehicleComponent implements OnInit {
   onSubmit() {
     this.loading(true);
     this.dataTbl = false;
+    this.vehicleData = [];
     this.VehicleService.getVehicle(this.user.member_id, this.catagory, this.searchTxt, this.searchTxt2, this.province).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         if (result.serviceResult.value && result.serviceResult.value.length > 0) {

@@ -29,6 +29,7 @@
           <div class="col-sm" *ngIf="catagory == '4'">
             <div class="form-group text-left mb-2"><label class="label-search">จังหวัดตามทะเบียนรถ</label>
               <select [(ngModel)]="province" class="form_select">
+                  <option value=""></option>
                   <option *ngFor="let data of provinceList" value="{{ data.ProvinceThai }}">{{ data.ProvinceThai }} </option>
               </select>
             </div>
