@@ -13,8 +13,8 @@ export class VehicleService {
 
   constructor(private httpClient: HttpClient, private configService: ConfigServerService) { }
 
-  public getVehicle(memberid: string, type: string, searchTxt, searchTxt2) {
-    let params = '?memberid=' + memberid + '&type=' + type + '&searchTxt=' + searchTxt + '&searchTxt2=' + searchTxt2;
+  public getVehicle(memberid: string, type: string, searchTxt, searchTxt2, province) {
+    let params = '?memberid=' + memberid + '&type=' + type + '&searchTxt=' + searchTxt + '&searchTxt2=' + searchTxt2 + '&province=' + province;
     return this.httpClient.get<any>(this.configService.getAPI('api/vehicle/get.php') + params).pipe(
       map(respons => {
         return {

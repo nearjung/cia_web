@@ -44,19 +44,19 @@ export class MemberService {
   }
 
   public addCredit(email, amount, mode: string = 'add') {
-    var param = {
-      email: email,
-      amount: amount,
-      mode: mode
-    }
-    //let params = '?mode=' + mode + '&email=' + email + '&amount=' + amount;
-    this.user.credit = this.user.credit - amount;
-    localStorage.setItem("userData", JSON.stringify(this.user));
-    return this.httpClient.post<any>(this.configService.getAPI('api/admin/creditManage.php'), param).pipe(
+    // var param = {
+    //   email: email,
+    //   amount: amount,
+    //   mode: mode
+    // }
+    let params = '?mode=' + mode + '&email=' + email + '&amount=' + amount;
+    return this.httpClient.get<any>(this.configService.getAPI('api/admin/creditManage.php')+ params).pipe(
       map(respons => {
-          return {
-              serviceResult: respons
-          }
+        this.user.credit = this.user.credit - amount;
+        localStorage.setItem("userData", JSON.stringify(this.user));
+        return {
+          serviceResult: respons
+        }
       }));
   }
 

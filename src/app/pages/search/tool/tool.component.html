@@ -147,7 +147,7 @@
                             </div>
 
                             <div class="form-group text-left mb-2"><label class="label-search">รุ่นรถ</label>
-                                <input [(ngModel)]="vehicleModel" type="text" placeholder="Honda, Toyota เป็นต้น" class="form_txt mb-2 ">
+                                <input [(ngModel)]="vehicleModel" type="text" placeholder="Jazz, Civic, Camry เป็นต้น" class="form_txt mb-2 ">
                             </div>
 
                             <div class="form-group text-left mb-2"><label class="label-search">ช่วงอายุรถ</label>
@@ -194,7 +194,7 @@
                         ค้นพบข้อมูลทั้งหมด {{ countDataValue | number }}<br>
                         ข้อมูลที่ต้องการ {{ countData | number }} <br>
                         Credit ที่ต้องใช้ทั้งหมด {{ countDataValue * priceMenuPersonal | number }} Credit
-                        <button (click)="download()" class="form_btn">Download Files</button>
+                        <button (click)="downloadPersonal()" class="form_btn">Download Files</button>
                     </div>
                 </div>
             </div>

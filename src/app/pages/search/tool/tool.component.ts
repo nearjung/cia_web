@@ -125,54 +125,99 @@ export class ToolComponent implements OnInit {
 
   searchPersonal() {
     this.loading(true);
-    if(!this.countData) {
+    if (!this.countData) {
       this.toast.error("กรุณากรอกจำนวนที่ต้องการ");
       this.loading(false);
       return;
     }
-    this.toolService.getSearch(this.user.member_id, this.user.password, this.gender, (this.age1)?this.age1:'1', (this.age2)?this.age2:'100', this.province, this.car, this.yearcar, '', '', this.ensure, this.email
+    this.toolService.getSearch(this.user.member_id, this.user.password, this.gender, (this.age1) ? this.age1 : '1', (this.age2) ? this.age2 : '100', this.province, this.car, this.yearcar, '', '', this.ensure, this.email
       , this.telephone, this.countData, this.tambon, this.amphure).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         if (result.serviceResult.status == "Success") {
           this.informationList = result.serviceResult.value;
-          // Count
-          this.toolService.getSearch(this.user.member_id, this.user.password, this.gender, (this.age1)?this.age1:'1', (this.age2)?this.age2:'100', this.province, this.car, this.yearcar, '', '', this.ensure, this.email
-            , this.telephone, this.countData, this.tambon, this.amphure, '1').pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-              if (result.serviceResult.status == "Success") {
-                this.countDataValue = result.serviceResult.value[0].dataLength;
-                this.loading(false);
-              }
-            })
+          if (this.informationList) {
+            this.countDataValue = this.informationList.length;
+          }
+          this.loading(false);
         }
       })
   }
 
-  download() {
+  downloadPersonal() {
     var price = this.countDataValue * this.priceMenuPersonal;
-    this.memberService.checkPoint(this.user.member_id, this.user.password, price).subscribe(result=>{
-      if(result.serviceResult.status == "Success") {
-        this.memberService.addCredit(this.user.email, price, 'reduce').subscribe(result=>{
-          if(result.serviceResult.status == "Success") {
-            return this.downloadService.downloadFile(this.informationList);
+    this.memberService.checkPoint(this.user.member_id, this.user.password, price).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.memberService.addCredit(this.user.email, price, 'reduce').subscribe(result => {
+          if (result.serviceResult.status == "Success") {
+            this.toast.success("ดาวโหลดสำเร็จ !");
+            this.toast.warning("ระบบได้ทำการหัก Credit เรียบร้อยแล้ว !");
+            this.downloadService.downloadFile(this.informationList);
+            return this.countDataValue = 0;
           } else {
             this.toast.error(result.serviceResult.text);
           }
-        }, err=> {
+        }, err => {
           console.log(err);
         })
       } else {
         this.toast.error(result.serviceResult.text);
       }
-    }, err=> {
+    }, err => {
       console.log(err);
     })
   }
 
   searchCompany() {
+    this.informationList = [];
+    this.loading(true);
 
+    if (!this.countData) {
+      this.toast.error("กรุณากรอกจำนวนที่ต้องการ");
+      this.loading(false);
+      return;
+    }
+
+    this.toolService.getSearchCompany(this.user.member_id, this.user.password, this.companyType, this.companyCapital, this.companyProfit, this.companyEmployee, this.countData).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.informationList = result.serviceResult.value;
+        if (this.informationList) {
+          this.countDataValue = this.informationList.length;
+        }
+        this.loading(false);
+      } else {
+        this.toast.error(result.serviceResult.text);
+        this.loading(false);
+      }
+    }, err => {
+      console.log(err);
+      this.loading(false);
+    })
   }
 
   searchVehicle() {
-    
+    this.informationList = [];
+    this.loading(true);
+
+    if (!this.countData) {
+      this.toast.error("กรุณากรอกจำนวนที่ต้องการ");
+      this.loading(false);
+      return;
+    }
+
+    this.toolService.getSearchVehicle(this.user.member_id, this.user.password, this.vehicleBrand, this.vehicleRage1, this.vehicleRage2, this.province, this.countData).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.informationList = result.serviceResult.value;
+        if (this.informationList) {
+          this.countDataValue = this.informationList.length;
+        }
+        this.loading(false);
+      } else {
+        this.toast.error(result.serviceResult.text);
+        this.loading(false);
+      }
+    }, err=>{
+      console.log(err);
+    })
+
   }
 
   loading(show) {

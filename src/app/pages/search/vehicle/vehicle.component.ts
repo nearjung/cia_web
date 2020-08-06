@@ -6,6 +6,7 @@ import { VehicleService } from '../../../service/vehicle.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ThrowStmt } from '@angular/compiler';
+import { ToolService } from 'src/app/service/tool.service';
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
@@ -20,11 +21,15 @@ export class VehicleComponent implements OnInit {
   public dataTbl: boolean = false;
   public vehicleData = [];
   public vehicle = [];
+  public provinceList = [];
+  public province: string;
 
   constructor(
     private toast: ToastrService,
     private router: Router,
     private VehicleService: VehicleService,
+    private toolService: ToolService
+
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
@@ -33,8 +38,17 @@ export class VehicleComponent implements OnInit {
     }
   }
 
+  loadProvinces() {
+    this.toolService.getProvinces().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.provinceList = result.serviceResult.value;
+      }
+    })
+  }
+
   ngOnInit(): void {
     this.loading(false);
+    this.loadProvinces();
   }
 
   ngOnDestroy() {
@@ -45,7 +59,7 @@ export class VehicleComponent implements OnInit {
   onSubmit() {
     this.loading(true);
     this.dataTbl = false;
-    this.VehicleService.getVehicle(this.user.member_id, this.catagory, this.searchTxt, this.searchTxt2).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+    this.VehicleService.getVehicle(this.user.member_id, this.catagory, this.searchTxt, this.searchTxt2, this.province).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         if (result.serviceResult.value && result.serviceResult.value.length > 0) {
           this.toast.success("พบข้อมูลทั้งหมด : " + result.serviceResult.value.length);

@@ -26,6 +26,15 @@
           <div class="col-sm" *ngIf="catagory == '4'"><input [(ngModel)]="this.searchTxt2" type="text" class="form_txt mb-2" placeholder="ทะเบียนรถส่วนหลัง (เช่น ​1234)"></div>
         </div>
         <div class="row">
+          <div class="col-sm" *ngIf="catagory == '4'">
+            <div class="form-group text-left mb-2"><label class="label-search">จังหวัดตามทะเบียนรถ</label>
+              <select [(ngModel)]="province" class="form_select">
+                  <option *ngFor="let data of provinceList" value="{{ data.ProvinceThai }}">{{ data.ProvinceThai }} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-sm"><button class="form_btn" (click)="onSubmit()">ค้นหา</button></div>
         </div>
       </div>

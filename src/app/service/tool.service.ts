@@ -54,6 +54,26 @@ export class ToolService {
       }));
   }
 
+  public getSearchCompany(memberId: string, password: string, companyType: string, capital: string, profit: string, employee: string, limit: string) {
+    let params = '?memberId=' + memberId + '&password=' + password + '&companyType=' + companyType + '&registeredCapital=' + capital + '&profit=' + profit + '&employee=' + employee + '&limit=' + limit;
+    return this.httpClient.get<any>(this.configService.getAPI('api/searchtools/getCompany.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public getSearchVehicle(memberId: string, password: string, brand: string, yearmin: string, yearmax: string, province: string, limit: string) {
+    let params = '?memberId=' + memberId + '&password=' + password + '&brand=' + brand + '&yearmin=' + yearmin + '&yearmax=' + yearmax + '&province=' + province + '&limit=' + limit;
+    return this.httpClient.get<any>(this.configService.getAPI('api/searchtools/getVehicle.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
   public getTier() {
     return this.httpClient.get<any>(this.configService.getAPI('api/searchtools/getTier.php')).pipe(
       map(respons => {
