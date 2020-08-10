@@ -44,8 +44,8 @@ export class ToolService {
   }
 
   public getSearch(memberId: string, password: string, gender: string, age1: string = '1', age2: string = '100', province: string, car: string, yearcar: string,
-    motor: string, yearmotor: string, ensure: string, email: string, telephone: string, top: string, tambon: string, amphure: string, getcount: string = '') {
-    let params = '?memberId=' + memberId + '&password=' + password + '&getcount=' + getcount + '&gender=' + gender + '&age1=' + age1 + '&age2=' + age2 + '&province=' + province + '&car=' + car + '&yearcar=' + yearcar + '&motor=' + motor + '&yearmotor=' + yearmotor + '&ensure=' + ensure + '&email=' + email + '&telephone=' + telephone + '&top=' + top + '&tambon=' + tambon + '&amphure=' + amphure;
+    motor: string, yearmotor: string, ensure: string, email: string, telephone: string, top: string, tambon: string, amphure: string, getcount: string = '', carbrand: string = '', carmodel: string = '') {
+    let params = '?memberId=' + memberId + '&password=' + password + '&getcount=' + getcount + '&gender=' + gender + '&age1=' + age1 + '&age2=' + age2 + '&province=' + province + '&car=' + car + '&yearcar=' + yearcar + '&motor=' + motor + '&yearmotor=' + yearmotor + '&ensure=' + ensure + '&email=' + email + '&telephone=' + telephone + '&top=' + top + '&tambon=' + tambon + '&amphure=' + amphure + '&carbrand=' + carbrand + '&carmodel=' + carmodel;
     return this.httpClient.get<any>(this.configService.getAPI('api/searchtools/get.php') + params).pipe(
       map(respons => {
         return {

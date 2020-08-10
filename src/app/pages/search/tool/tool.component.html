@@ -61,6 +61,15 @@
                                 <div *ngIf="car == 'มี'" class="form-group text-left mb-2"><label class="label-search">รถซื้อไม่เกิน</label>
                                     <input [(ngModel)]="yearcar" type="text" placeholder="จำนวนปี" class="form_txt mb-2">
                                 </div>
+
+                                <div *ngIf="car == 'มี'" class="form-group text-left mb-2"><label class="label-search">ยี่ห้อ</label>
+                                    <input [(ngModel)]="vehicleBrand" type="text" placeholder="Honda, Toyota เป็นต้น" class="form_txt mb-2 ">
+                                </div>
+
+                                <div *ngIf="car == 'มี'" class="form-group text-left mb-2"><label class="label-search">รุ่นรถ</label>
+                                    <input [(ngModel)]="vehicleModel" type="text" placeholder="Jazz, Civic, Camry เป็นต้น" class="form_txt mb-2 ">
+                                </div>
+
                             <div class="form-group text-left mb-2"><label class="label-search">มีประกันสังคมหรือไม่</label>
                                 <select [(ngModel)]="ensure" class="form_select">
                                     <option value="">ไม่ระบุ</option>
