@@ -38,17 +38,17 @@ export class ToolComponent implements OnInit {
   public tambon = '';
 
   // Company Field
-  public companyType: string;
-  public companyCapital: string;
-  public companyProfit: string;
-  public companyEmployee: string;
+  public companyType: string = '';
+  public companyCapital: string = '';
+  public companyProfit: string = '';
+  public companyEmployee: string = '';
 
   // Vehicle Field
-  public vehicleBrand: string;
-  public vehicleModel: string;
-  public vehicleRage1: string;
-  public vehicleRage2: string;
-  public vehicleProvince: string;
+  public vehicleBrand: string = '';
+  public vehicleModel: string = '';
+  public vehicleRage1: string = '';
+  public vehicleRage2: string = '';
+  public vehicleProvince: string = '';
 
 
   // Use All Field
@@ -131,7 +131,7 @@ export class ToolComponent implements OnInit {
       return;
     }
     this.toolService.getSearch(this.user.member_id, this.user.password, this.gender, (this.age1) ? this.age1 : '1', (this.age2) ? this.age2 : '100', this.province, this.car, this.yearcar, '', '', this.ensure, this.email
-      , this.telephone, this.countData, this.tambon, this.amphure).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      , this.telephone, this.countData, this.tambon, this.amphure, this.vehicleBrand, this.vehicleModel).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         if (result.serviceResult.status == "Success") {
           this.informationList = result.serviceResult.value;
           if (this.informationList) {
