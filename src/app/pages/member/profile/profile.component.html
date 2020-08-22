@@ -15,9 +15,41 @@
     </div>
     <div class="col-sm-8">
       <div class="bg-black p-2">
-        <div class="text-center" style="margin:20px;">
-          {{ test }} <br>
-          {{ test2 }}
+        <div style="margin:20px;">
+          <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">หัวข้อ</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">ชื่อ</th>
+                <td>{{ user.titleName }}{{ user.firstName }} {{ user.lastName }}</td>
+              </tr>
+              <tr>
+                <th scope="row">รหัสบัตรประชาชน</th>
+                <td>{{ user.idcard }}</td>
+              </tr>
+              <tr>
+                <th scope="row">เบอร์โทรศัพท์</th>
+                <td>{{ user.telephone }}</td>
+              </tr>
+              <tr>
+                <th scope="row">อีเมล</th>
+                <td>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <th scope="row">เครดิต</th>
+                <td>{{ user.credit | number }}</td>
+              </tr>
+              <tr>
+                <th scope="row">อัพเดทล่าสุด</th>
+                <td>{{ user.updateDate }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
