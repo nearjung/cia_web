@@ -39,7 +39,7 @@
             </table>
           </div>
 
-          <div *ngIf="dataTbl" class="table-responsive-sm">
+          <div *ngIf="dataTbl && showData" class="table-responsive-sm">
             <table class="table table-hover table-dark">
               <thead>
                 <tr>
@@ -73,7 +73,7 @@
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">พาหนะ</th>
-                  <td><span *ngFor="let vehicle of personInfo.vehicle">รถยี่ห้อ : {{ vehicle.BRAND_D }} เลขทะเบียน {{ vehicle.PLATE1 + vehicle.PLATE2 }} {{ vehicle.OFF_PROV_D }}<br></span></td>
+                  <td><span *ngFor="let vehicle of personInfo.vehicle"><span style="color:aqua; cursor: pointer;" (click)="vehicleInfo(vehicle.PLATE1, vehicle.PLATE2, vehicle.NUM_BODY, vehicle.NUM_ENG)">รถยี่ห้อ : {{ vehicle.BRAND_D }} เลขทะเบียน {{ vehicle.PLATE1 + vehicle.PLATE2 }} {{ vehicle.OFF_PROV_D }}</span><br></span></td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">เบอร์ติดต่อ</th>
@@ -102,6 +102,91 @@
                 </tr>
               </tbody>
             </table>            
+          </div>
+
+          <div *ngIf="dataTblVehicle && !showData" class="table-responsive-sm">
+            <table class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">หัวข้อ</th>
+                  <th scope="col">รายละเอียด</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" style="text-align: right;">ประเภท</th>
+                  <td>{{ vehicle.TYPE_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">สำนักงานขนส่ง</th>
+                  <td>{{ vehicle.OFF_LOC_DESC }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">จังหวัด</th>
+                  <td>{{ vehicle.OFF_PROV_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">วันที่จดทะเบียน - หมดอายุ</th>
+                  <td>{{ vehicle.REG_DATE | date }} - {{ vehicle.MFG_YEAR | date }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">เลขทะเบียน</th>
+                  <td>{{ vehicle.PLATE1 }}{{ vehicle.PLATE2 }} {{ vehicle.OFF_PROV_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">ยี่ห้อ</th>
+                  <td>{{ vehicle.BRAND_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">เลขตัวถัง</th>
+                  <td>{{ vehicle.NUM_BODY }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">เลขเครื่องยนต์</th>
+                  <td>{{ vehicle.NUM_ENG }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">ประเภทน้ำมัน</th>
+                  <td>{{ vehicle.FUEL_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">เครื่องยนต์ (CC)</th>
+                  <td>{{ vehicle.CC }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">น้ำหนักรถ</th>
+                  <td>{{ vehicle.WGT_CAR }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">สีรถ</th>
+                  <td>{{ vehicle.COLOR1_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">ปีที่ผลิต</th>
+                  <td>{{ vehicle.MFG_YEAR | date }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">ชื่อผู้ครอบครอง</th>
+                  <td>{{ vehicle.JUT_TTL_D }}{{ vehicle.JUT_FNAME }} {{ vehicle.JUT_LNAME }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">ที่อยู่ผู้ครอบครอง</th>
+                  <td>{{ vehicle.ACQ_ADDR }} {{ vehicle.ACQ_TUM_D }} {{ vehicle.ACQ_AMP_D }} {{ vehicle.ACQ_PRV_D }} {{ vehicle.ACQ_ZIP }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">หมายเลขบัตรประชาชน/ผู้เสียภาษี</th>
+                  <td>{{ vehicle.ACQ_ID }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">สัญชาติผู้ครอบครอง</th>
+                  <td>{{ vehicle.ACQ_NAT_D }}</td>
+                </tr>
+                <tr>
+                  <th scope="row" style="text-align: right;">การชำระเงิน</th>
+                  <td>{{ vehicle.Payment }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
         </div>

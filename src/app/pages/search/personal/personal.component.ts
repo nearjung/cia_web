@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonalService } from '../../../service/personal.service';
+import { VehicleService } from '../../../service/vehicle.service';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -21,14 +22,18 @@ export class PersonalComponent implements OnInit {
   public user: any = JSON.parse(localStorage.getItem("userData"));
   public year = new Date().getFullYear();
   public dataTbl: boolean = false;
+  public dataTblVehicle: boolean = false;
   public personInfo = [];
   public contact = [];
   public workplace = [];
+  public vehicle = [];
+  public showData: boolean = false;
 
   constructor(
     private PersonalService: PersonalService,
     private toast: ToastrService,
     private router: Router,
+    private VehicleService: VehicleService
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
@@ -49,6 +54,8 @@ export class PersonalComponent implements OnInit {
   onSubmit() {
     this.dataList = [];
     this.dataTbl = false;
+    this.dataTblVehicle = false;
+    this.showData = true;
     this.loading(true);
     if (!+this.firstname) {
       this.firstname = this.searchTxt.split(' ')[0];
@@ -70,6 +77,25 @@ export class PersonalComponent implements OnInit {
     }, err => {
       this.toast.error(err);
       this.loading(false);
+    })
+  }
+
+  vehicleInfo(plate1: string, plate2: string, numbody: string = '', numengine: string = '', mode: string = 'car') {
+    this.dataTbl = true;
+    this.dataTblVehicle = true;
+    this.showData = false;
+    this.personInfo = [];
+    this.contact = [];
+    this.workplace = [];
+    this.searchTxt = '';
+    this.VehicleService.getVehicleInfo(this.user.member_id, this.user.password, plate1, plate2, numbody, numengine, mode).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.vehicle = result.serviceResult.value;
+      } else {
+        this.toast.error("เกิดข้อผิดพลาดขณะรันข้อมูล !");
+      }
+    }, err => {
+      this.toast.error(err);
     })
   }
 
