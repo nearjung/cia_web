@@ -1,0 +1,16 @@
+
+<div class="login_div">
+  <div class="login_tbl col-sm-5">
+      <div class="mt-2" style="font-size: 1.1rem; text-align: center;">Register</div>
+      <hr style="border: 1px solid rgb(124, 124, 124);">
+      <input [(ngModel)]="this.email" type="email" placeholder="อีเมล" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.pass1" type="password" placeholder="รหัสผ่าน" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.pass2" type="password" placeholder="ยืนยันรหัสผ่าน" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.idCard" type="text" placeholder="รหัสบัตรประชาชน" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.titleName" type="text" placeholder="คำนำหน้าชื่อ" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.fullName" type="text" placeholder="ชื่อ นามสกุล" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.telephone" type="text" placeholder="เบอร์โทรศัพท์" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <button class="form_btn mb-2" (click)="submit()">Submit</button>
+      
+  </div>
+</div>

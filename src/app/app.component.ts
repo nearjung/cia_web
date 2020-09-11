@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MemberService } from './service/member.service';
 
 @Component({
@@ -14,11 +14,11 @@ export class AppComponent {
 
   constructor(
     private router: Router,
-    private MemberService: MemberService
-  ) {
-
+    private MemberService: MemberService,
+    private route: ActivatedRoute
+    ) {
     if (!this.user) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/active']);
       return;
     } else {
       this.MemberService.getMenu(this.user.member_id).subscribe(result => {

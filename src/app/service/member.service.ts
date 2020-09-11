@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigServerService } from '../core/config-server.service';
-
+import { config } from '../core/config';
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +50,7 @@ export class MemberService {
     //   mode: mode
     // }
     let params = '?mode=' + mode + '&email=' + email + '&amount=' + amount;
-    return this.httpClient.get<any>(this.configService.getAPI('api/admin/creditManage.php')+ params).pipe(
+    return this.httpClient.get<any>(this.configService.getAPI('api/admin/creditManage.php') + params).pipe(
       map(respons => {
         this.user.credit = this.user.credit - amount;
         localStorage.setItem("userData", JSON.stringify(this.user));
@@ -63,6 +63,16 @@ export class MemberService {
   public getActiveMenu(memberId) {
     let params = '?membId=' + memberId;
     return this.httpClient.get<any>(this.configService.getAPI('api/admin/getMenuActive.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public register(email: string, password: string, titleName: string, fullName: string, idCard: string, telephone: string, token: string) {
+    let params = '?email=' + email + '&password=' + password + '&titleName=' + titleName + '&fullName=' + fullName + '&idCard=' + idCard + '&telephone=' + telephone + '&token=' + token;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/register.php') + params).pipe(
       map(respons => {
         return {
           serviceResult: respons
@@ -188,6 +198,33 @@ export class MemberService {
         }
       }));
 
+  }
+
+  public sendMail(to: string, subject: string, text: string, service: string = config.email.server, user: string = config.email.user, password: string = config.email.password) {
+    var data = {
+      mailService: service,
+      mailUser: user,
+      mailPassword: password,
+      mailTo: to,
+      mailSubject: subject,
+      mailText: text,
+    }
+    return this.httpClient.post<any>(this.configService.getAPINode('email/sendMail'), data).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public getActive(token) {
+    let params = '?token=' + token;
+    return this.httpClient.get<any>(this.configService.getAPI('pages/access.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
   }
 
 }

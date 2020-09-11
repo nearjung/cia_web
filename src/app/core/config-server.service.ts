@@ -4,11 +4,21 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class ConfigServerService {
   constructor() { }
+  public getDomain(postFix: string, module = 'web'): string {
+    if (module === 'web') {
+      return environment.webDomain + postFix;
+    }
+  }
+
   public getAPI(postFix: string, module = 'web'): string {
     if (module === 'web') {
       return environment.endPointWeb + postFix;
-    } else if (module === 'socket') {
-      return environment.endPointSocket;
+    }
+  }
+
+  public getAPINode(postFix: string, module = 'web'): string {
+    if (module === 'web') {
+      return environment.endPointNode + postFix;
     }
   }
 }

@@ -21,7 +21,9 @@ import { CreditManageComponent } from './pages/admin/credit-manage/credit-manage
 import { UserLogComponent } from './pages/admin/user-log/user-log.component';
 import { ApiLogComponent } from './pages/admin/api-log/api-log.component';
 import { LoginComponent } from './login/login.component';
+import { ActiveComponent } from './active/active.component';
 import { HomeComponent } from './home/home.component';
+import { RegisterComponent } from './register/register.component';
 import { LoadingComponent } from './control/loading/loading.component';
 
 @NgModule({
@@ -42,7 +44,8 @@ import { LoadingComponent } from './control/loading/loading.component';
     LoginComponent,
     HomeComponent,
     LoadingComponent,
-
+    RegisterComponent,
+    ActiveComponent
   ],
   imports: [
     BrowserModule,

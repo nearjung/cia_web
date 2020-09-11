@@ -6,8 +6,10 @@ import { VehicleComponent } from './search/vehicle/vehicle.component';
 import { CompanyComponent } from './search/company/company.component';
 import { ToolComponent } from './search/tool/tool.component';
 import { LoginComponent } from '../login/login.component';
+import { ActiveComponent } from '../active/active.component';
 import { MemberComponent } from '../pages/admin/member/member.component';
 import { ProfileComponent } from './member/profile/profile.component';
+import { RegisterComponent } from '../register/register.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,7 +19,9 @@ const routes: Routes = [
   { path: 'tool', component: ToolComponent},
   { path: 'admin', component: MemberComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'active', component: ActiveComponent }
 
 ];
 
