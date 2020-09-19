@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
           var res = result.serviceResult.value;
           if (res.accActive == 0) {
             this.toast.error("กรุณารอการยืนยันจากทางผู้ดูแลระบบ !");
+          } else if(res.emailActive == 0) {
+            this.toast.error("กรุณายืนยัน Email ก่อน !");
           } else {
             var dataValue = {
               member_id: res.member_id,
@@ -76,6 +78,10 @@ export class LoginComponent implements OnInit {
 
   register(){
     this.router.navigate(['/register']);
+  }
+
+  forgetpass(){
+    this.router.navigate(['/forgetpass']);
   }
 
 }

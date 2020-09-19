@@ -1,0 +1,16 @@
+
+<div class="login_div">
+  <div *ngIf="!tbl" class="login_tbl col-sm-5">
+      <div class="mt-2" style="font-size: 1.1rem; text-align: center;">ลืมรหัสผ่าน</div>
+      <hr style="border: 1px solid rgb(124, 124, 124);">
+      <input [(ngModel)]="this.email" type="email" placeholder="อีเมล" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <input [(ngModel)]="this.idCard" type="text" placeholder="รหัสบัตรประชาชน" class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+      <button class="form_btn mb-2" (click)="submit()">Submit</button>
+  </div>
+
+  <div *ngIf="tbl" class="login_tbl col-sm-5">
+    <div class="mt-2" style="font-size: 1.1rem; text-align: center;">ลืมรหัสผ่าน</div>
+    <hr style="border: 1px solid rgb(124, 124, 124);">
+    ระบบได้ทำการส่ง Link เพื่อให้ท่าน Reset รหัสผ่านใหม่แล้ว
+  </div>
+</div>

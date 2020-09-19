@@ -227,4 +227,14 @@ export class MemberService {
       }));
   }
 
+  public chkResetPass(email: string, idcard: string) {
+    let params = '?email=' + email + '&idcard=' + idcard;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/resetPasschk.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
 }

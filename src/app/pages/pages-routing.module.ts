@@ -10,6 +10,7 @@ import { ActiveComponent } from '../active/active.component';
 import { MemberComponent } from '../pages/admin/member/member.component';
 import { ProfileComponent } from './member/profile/profile.component';
 import { RegisterComponent } from '../register/register.component';
+import { ForgetpassComponent } from '../forgetpass/forgetpass.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'profile', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'forgetpass', component: ForgetpassComponent },
   { path: 'active', component: ActiveComponent }
 
 ];

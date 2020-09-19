@@ -101,3 +101,14 @@
 [0912/030606.269:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0912/032104.095:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0912/033604.096:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/195347.581:ERROR:settings.cc(325)] Settings version is not 1
+[0919/195347.599:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/200347.608:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/200347.608:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/200847.605:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/202347.626:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/203847.632:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/205347.642:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/210847.652:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/212347.709:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0919/213847.711:ERROR:crash_report_database_win.cc(469)] failed to stat report

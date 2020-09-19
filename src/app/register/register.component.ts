@@ -53,7 +53,7 @@ export class RegisterComponent implements OnInit {
           var content = ''
           content += " <div style='font-size: 20px; color: red;'>Welcome : " + this.titleName + this.fullName + "</div><br>";
           content += " <br>";
-          content += " <a href='"+ this.configService.getDomain('#/active?token='+ token +'') +"'><< Click Here >></a> to active your email address. if you can not click this link please copy this link to your browser.<br>";
+          content += " <a href='"+ this.configService.getAPI('pages/access.php?token='+ token +'') +"'><< Click Here >></a> to active your email address. if you can not click this link please copy this link to your browser.<br>";
           content += " <br>";
           content += " <br>";
           content += " We are profession in consumer database, we integrate data and create supreme ‘asset’ which undeniably be needed by every business enterprises. We walk aside so… your offerings either physically or digitally deliver into customers 5 senses of perception.";

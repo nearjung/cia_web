@@ -25,6 +25,7 @@ import { ActiveComponent } from './active/active.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { LoadingComponent } from './control/loading/loading.component';
+import { ForgetpassComponent } from './forgetpass/forgetpass.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { LoadingComponent } from './control/loading/loading.component';
     HomeComponent,
     LoadingComponent,
     RegisterComponent,
-    ActiveComponent
+    ActiveComponent,
+    ForgetpassComponent
   ],
   imports: [
     BrowserModule,
