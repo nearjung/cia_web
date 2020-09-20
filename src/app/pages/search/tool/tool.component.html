@@ -198,13 +198,19 @@
     <div class="col-sm-8">
         <div class="bg-black p-2">
             <div class="text-center" style="margin:20px;">
-                <div *ngIf="countDataValue" class="row">
-                    <div class="col-sm">
+                <div *ngIf="showTbl" class="row">
+                    <div class="col-sm" *ngIf="!showTxt">
                         ค้นพบข้อมูลทั้งหมด {{ countDataValue | number }}<br>
                         ข้อมูลที่ต้องการ {{ countData | number }} <br>
                         Credit ที่ต้องใช้ทั้งหมด {{ countDataValue * priceMenuPersonal | number }} Credit
                         <button (click)="downloadPersonal()" class="form_btn">Download Files</button>
                     </div>
+                    <div class="col-sm" *ngIf="showTxt">
+                        {{ showTxt }}
+                    </div>
+                </div>
+                <div *ngIf="!showTbl" class="row">
+                    <div class="col-sm">กรุณาเลือกข้อมูลที่ต้องการ</div>
                 </div>
             </div>
         </div>

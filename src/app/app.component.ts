@@ -11,41 +11,35 @@ export class AppComponent {
   public menu: any;
   title = 'ciaweb';
   public user: any = JSON.parse(localStorage.getItem("userData"));
-  public link: string;
+  public link: boolean = false;
 
   constructor(
     private router: Router,
     private MemberService: MemberService,
     private route: ActivatedRoute
   ) {
-    this.route.queryParams.subscribe(params => {
-      this.link = params["link"];
 
-      if (this.link) {
-        this.router.navigate(['/' + this.link]);
-        return;
-      } else if (!this.user) {
-        this.router.navigate(['/login']);
-        return;
-      } else {
-        this.MemberService.getMenu(this.user.member_id).subscribe(result => {
-          if (result.serviceResult.status == "Success") {
-            this.menu = result.serviceResult.value;
-            for (var i in this.menu) {
-              this.menu[i].text = this.menu[i].menuName;
-              this.menu[i].link = this.menu[i].menuLink.replace("/", "");
-              this.menu[i].active = 'active';
-            }
+    if (this.user) {
+      this.MemberService.getMenu(this.user.member_id).subscribe(result => {
+        if (result.serviceResult.status == "Success") {
+          this.menu = result.serviceResult.value;
+          for (var i in this.menu) {
+            this.menu[i].text = this.menu[i].menuName;
+            this.menu[i].link = this.menu[i].menuLink.replace("/", "");
+            this.menu[i].active = 'active';
           }
-          this.menu.push({ 'text': 'Logout', 'link': 'login', 'active': '' });
-        })
-      }
-    });
+        }
+        this.menu.push({ 'text': 'Logout', 'link': 'login', 'active': '' });
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      this.menu = [];
+    }
 
   }
 
   ngOnInit(): void {
-
 
   }
 

@@ -5,25 +5,21 @@ import { PersonalComponent } from './search/personal/personal.component';
 import { VehicleComponent } from './search/vehicle/vehicle.component';
 import { CompanyComponent } from './search/company/company.component';
 import { ToolComponent } from './search/tool/tool.component';
-import { LoginComponent } from '../login/login.component';
 import { ActiveComponent } from '../active/active.component';
 import { MemberComponent } from '../pages/admin/member/member.component';
 import { ProfileComponent } from './member/profile/profile.component';
-import { RegisterComponent } from '../register/register.component';
 import { ForgetpassComponent } from '../forgetpass/forgetpass.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'personal', component: PersonalComponent},
-  { path: 'company', component: CompanyComponent},
-  { path: 'vehicle', component: VehicleComponent},
-  { path: 'tool', component: ToolComponent},
-  { path: 'admin', component: MemberComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'profile', component: ProfileComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'forgetpass', component: ForgetpassComponent },
-  { path: 'active', component: ActiveComponent }
+  // { path: '', component: HomeComponent },
+  // { path: 'personal', component: PersonalComponent},
+  // { path: 'company', component: CompanyComponent},
+  // { path: 'vehicle', component: VehicleComponent},
+  // { path: 'tool', component: ToolComponent},
+  // { path: 'admin', component: MemberComponent},
+  // { path: 'profile', component: ProfileComponent },
+  // { path: 'forgetpass', component: ForgetpassComponent },
+  // { path: 'active', component: ActiveComponent }
 
 ];
 

@@ -57,6 +57,9 @@ export class ToolComponent implements OnInit {
 
   public countDataValue;
 
+  public showTbl: boolean = false;
+  public showTxt: string;
+
   public priceMenuPersonal;
 
   public user: any = JSON.parse(localStorage.getItem("userData"));
@@ -70,7 +73,7 @@ export class ToolComponent implements OnInit {
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
-      location.reload();
+      //location.reload();
       return;
     }
     this.memberService.getMenuById('5').subscribe(result => {
@@ -125,6 +128,7 @@ export class ToolComponent implements OnInit {
 
   searchPersonal() {
     this.loading(true);
+    this.showTxt = null;
     if (!this.countData) {
       this.toast.error("กรุณากรอกจำนวนที่ต้องการ");
       this.loading(false);
@@ -133,9 +137,12 @@ export class ToolComponent implements OnInit {
     this.toolService.getSearch(this.user.member_id, this.user.password, this.gender, (this.age1) ? this.age1 : '1', (this.age2) ? this.age2 : '100', this.province, this.car, this.yearcar, '', '', this.ensure, this.email
       , this.telephone, this.countData, this.tambon, this.amphure, this.vehicleBrand, this.vehicleModel).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         if (result.serviceResult.status == "Success") {
+          this.showTbl = true;
           this.informationList = result.serviceResult.value;
           if (this.informationList) {
             this.countDataValue = this.informationList.length;
+          } else {
+            this.showTxt = "ไม่พบข้อมูลในระบบ หรือ คุณได้ข้อมูลไปหมดแล้ว กรุณาตรวจสอบ Log !";
           }
           this.loading(false);
         }
@@ -151,6 +158,7 @@ export class ToolComponent implements OnInit {
             this.toast.success("ดาวโหลดสำเร็จ !");
             this.toast.warning("ระบบได้ทำการหัก Credit เรียบร้อยแล้ว !");
             this.downloadService.downloadFile(this.informationList);
+            this.showTbl = false;
             return this.countDataValue = 0;
           } else {
             this.toast.error(result.serviceResult.text);
@@ -214,7 +222,7 @@ export class ToolComponent implements OnInit {
         this.toast.error(result.serviceResult.text);
         this.loading(false);
       }
-    }, err=>{
+    }, err => {
       console.log(err);
     })
 

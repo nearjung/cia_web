@@ -27,7 +27,7 @@ export class CompanyComponent implements OnInit {
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
-      location.reload();
+      //location.reload();
       return;
     }
   }
