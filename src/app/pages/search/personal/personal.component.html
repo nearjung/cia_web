@@ -100,6 +100,9 @@
                   <th scope="row" style="text-align: right;">ที่อยู่บริษัท</th>
                   <td>{{ workplace.address1 + workplace.address2 }}</td>
                 </tr>
+                <tr>
+                  <td colspan="2" class="text-center"><button class="btn btn-warning" (click)="back(1)">BACK</button></td>
+                </tr>
               </tbody>
             </table>            
           </div>
@@ -184,6 +187,9 @@
                 <tr>
                   <th scope="row" style="text-align: right;">การชำระเงิน</th>
                   <td>{{ vehicle.Payment }}</td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="text-center"><button class="btn btn-warning" (click)="back(2)">BACK</button></td>
                 </tr>
               </tbody>
             </table>

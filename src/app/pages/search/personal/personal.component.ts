@@ -28,6 +28,7 @@ export class PersonalComponent implements OnInit {
   public workplace = [];
   public vehicle = [];
   public showData: boolean = false;
+  public idCard: string;
 
   constructor(
     private PersonalService: PersonalService,
@@ -69,7 +70,6 @@ export class PersonalComponent implements OnInit {
         } else {
           this.toast.error("ไม่พบข้อมูลในระบบ !");
         }
-        this.searchTxt = '';
         this.loading(false);
       } else {
         this.loading(false);
@@ -78,6 +78,8 @@ export class PersonalComponent implements OnInit {
       this.toast.error(err);
       this.loading(false);
     })
+
+    this.searchTxt = null;
   }
 
   vehicleInfo(plate1: string, plate2: string, numbody: string = '', numengine: string = '', mode: string = 'car') {
@@ -100,7 +102,9 @@ export class PersonalComponent implements OnInit {
   }
 
   userInfo(idCard: string) {
+    this.idCard = idCard;
     this.dataTbl = true;
+    this.showData = true;
     this.personInfo = [];
     this.contact = [];
     this.workplace = [];
@@ -124,6 +128,16 @@ export class PersonalComponent implements OnInit {
       eval("$('#hm-loading-box').show();");
     } else {
       eval("$('#hm-loading-box').fadeOut();");
+    }
+  }
+
+  back(mode) {
+    if(mode == 1) {
+      this.dataTbl = false;
+      this.showData = false;
+    } else if(mode == 2) {
+      this.dataTblVehicle = false;
+      this.userInfo(this.idCard);
     }
   }
 
