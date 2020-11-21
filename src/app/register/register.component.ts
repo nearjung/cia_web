@@ -43,8 +43,10 @@ export class RegisterComponent implements OnInit {
     this.loading(true);
     if (!this.idCard || !this.email || !this.titleName || !this.fullName || !this.telephone) {
       this.toast.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+      this.loading(false);
     } else if (this.pass1 != this.pass2) {
       this.toast.error("รหัสผ่านไม่ตรงกัน");
+      this.loading(false);
     } else {
       var token = uuidv4();
       this.memberService.register(this.email, this.pass2, this.titleName, this.fullName, this.idCard, this.telephone, token).subscribe(result => {

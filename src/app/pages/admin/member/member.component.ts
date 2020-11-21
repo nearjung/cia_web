@@ -8,6 +8,7 @@ import * as Parser from 'json2csv';
 import { DownloadFileService } from 'src/app/service/download.service';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2'
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-member',
@@ -35,6 +36,16 @@ export class MemberComponent implements OnInit {
   public menuName;
   public menuLink;
   public menuPrice;
+
+  // Field
+  public email: string;
+  public pass1: string;
+  public pass2: string;
+  public titleName: string;
+  public fullName: string;
+  public idCard: string;
+  public telephone: string
+  public creditUser: number;
 
   constructor(
     private MemberService: MemberService,
@@ -239,6 +250,32 @@ export class MemberComponent implements OnInit {
             }
           })
         }
+      })
+    }
+  }
+
+  submit() {
+    this.loading(true);
+    if (!this.idCard || !this.email || !this.titleName || !this.fullName || !this.telephone) {
+      this.toast.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+      this.loading(false);
+    } else if (this.pass1 != this.pass2) {
+      this.toast.error("รหัสผ่านไม่ตรงกัน");
+      this.loading(false);
+    } else {
+      var token = uuidv4();
+      this.MemberService.register(this.email, this.pass2, this.titleName, this.fullName, this.idCard, this.telephone, token, this.creditUser).subscribe(result => {
+        if (result.serviceResult.status == "Success") {
+              this.toast.success("ลงทะเบียนสำเร็จ");
+              this.loading(false);
+              this.getMember();
+        } else {
+          this.toast.error(result.serviceResult.text);
+          this.loading(false);
+        }
+      }, err => {
+        console.log(err);
+        this.loading(false);
       })
     }
   }

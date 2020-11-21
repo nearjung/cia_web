@@ -24,7 +24,7 @@
       <div class="bg-black p-2">
         <div style="margin:20px;">
           <div *ngIf="paged == 'main'" class="table-responsive-sm">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-3">
                   <select [(ngModel)]="filterdata" class="form_select mb-2 ng-pristine" (change)="onMember($event.target.value)">
                     <option value="All">ทั้งหมด</option>
@@ -32,6 +32,8 @@
                     <option value="NotConfirm">สมาชิกที่ยังไม่ยืนยัน</option>
                   </select>
                 </div>
+                <div class="col-sm-6"></div>
+                <div class="col-sm-3"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">เพิ่มสมาชิก</button></div>
                 
             </div>
             <div class="row">
@@ -41,6 +43,7 @@
                       <tr>
                         <th scope="col">รหัสบัตรประชาชน</th>
                         <th scope="col">ชื่อ-นามสกุล</th>
+                        <th scope="col">อีเมล</th>
                         <th scope="col">#</th>
                       </tr>
                     </thead>
@@ -48,6 +51,7 @@
                       <tr *ngFor="let data of filterMember">
                         <th scope="row">{{ data.idcard }}</th>
                         <td>{{ data.firstName }} {{ data.lastname }}</td>
+                        <td>{{ data.email }}</td>
                         <td><button type="button" class="btn btn-warning" (click)="memberInfo(data.member_id)">Detail</button>&nbsp;<button *ngIf="data.accActive == 0" type="button" class="btn btn-success" (click)="confirm(data.member_id)">Confirm</button></td>
                       </tr>
                     </tbody>
@@ -196,4 +200,32 @@
         </div>
       </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">เพิ่มสมาชิก</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input [(ngModel)]="this.email" type="email" placeholder="อีเมล" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.pass1" type="password" placeholder="รหัสผ่าน" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.pass2" type="password" placeholder="ยืนยันรหัสผ่าน" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.idCard" type="text" placeholder="รหัสบัตรประชาชน" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.titleName" type="text" placeholder="คำนำหน้าชื่อ" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.fullName" type="text" placeholder="ชื่อ นามสกุล" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.telephone" type="number" placeholder="เบอร์โทรศัพท์" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+        <input [(ngModel)]="this.creditUser" type="number" placeholder="จำนวนเครดิต" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="submit()" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>

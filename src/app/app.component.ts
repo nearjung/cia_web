@@ -29,7 +29,6 @@ export class AppComponent {
             this.menu[i].active = 'active';
           }
         }
-        this.menu.push({ 'text': 'Logout', 'link': 'login', 'active': '' });
       }, err => {
         console.log(err);
       });

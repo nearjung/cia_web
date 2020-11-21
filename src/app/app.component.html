@@ -9,6 +9,9 @@
           <li *ngFor="let item of menu;">
               <div class="top_link nav-item {{ item.active }}" (click)="navigate(item.link)" style="color: #FFF;">{{ item.text }}&nbsp;&nbsp;&nbsp;&nbsp;</div>
           </li>
+          <li>
+              <div class="top_link nav-item" (click)="navigate('login')" style="color: #FFF;">Log out&nbsp;&nbsp;&nbsp;&nbsp;</div>
+          </li>
       </ul>
   </div>
 </nav>

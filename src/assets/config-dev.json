@@ -1,4 +1,5 @@
 {
     "endPointWeb": "http://localhost:9000/",
+    "endPointNode": "http://cia.fortiddns.com:8080/",
     "version": "1.0.0"
 }

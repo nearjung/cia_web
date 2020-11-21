@@ -70,8 +70,8 @@ export class MemberService {
       }));
   }
 
-  public register(email: string, password: string, titleName: string, fullName: string, idCard: string, telephone: string, token: string) {
-    let params = '?email=' + email + '&password=' + password + '&titleName=' + titleName + '&fullName=' + fullName + '&idCard=' + idCard + '&telephone=' + telephone + '&token=' + token;
+  public register(email: string, password: string, titleName: string, fullName: string, idCard: string, telephone: string, token: string, credit: number = 0) {
+    let params = '?email=' + email + '&password=' + password + '&titleName=' + titleName + '&fullName=' + fullName + '&idCard=' + idCard + '&telephone=' + telephone + '&token=' + token + '&credit=' + credit;
     return this.httpClient.get<any>(this.configService.getAPI('api/user/register.php') + params).pipe(
       map(respons => {
         return {

@@ -58,9 +58,12 @@ export class PersonalComponent implements OnInit {
     this.dataTblVehicle = false;
     this.showData = true;
     this.loading(true);
-    if (!+this.firstname) {
+    if (!+this.searchTxt) {
       this.firstname = this.searchTxt.split(' ')[0];
       this.lastname = this.searchTxt.split(' ')[1];
+    } else {
+      this.firstname = this.searchTxt;
+      this.lastname = undefined;
     }
     this.PersonalService.getPersonal(this.firstname, this.lastname, this.user.member_id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
