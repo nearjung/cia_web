@@ -24,8 +24,8 @@ export class AppComponent {
         if (result.serviceResult.status == "Success") {
           this.menu = result.serviceResult.value;
           for (var i in this.menu) {
-            this.menu[i].text = this.menu[i].menuName;
-            this.menu[i].link = this.menu[i].menuLink.replace("/", "");
+            this.menu[i].text = this.menu[i].MENUNAME;
+            this.menu[i].link = this.menu[i].MENULINK.replace("/", "");
             this.menu[i].active = 'active';
           }
         }

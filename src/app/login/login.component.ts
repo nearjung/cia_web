@@ -48,19 +48,19 @@ export class LoginComponent implements OnInit {
             this.toast.error("กรุณายืนยัน Email ก่อน !");
           } else {
             var dataValue = {
-              member_id: res.member_id,
-              email: res.email,
-              password: res.password,
-              authority: res.authority,
-              credit: res.credit,
-              emailActive: res.emailActive,
-              titleName: res.titleName,
-              firstName: res.firstName,
-              lastname: res.lastname,
-              idcard: res.idcard,
-              telephone: res.telephone,
-              createDate: res.createDate,
-              updateDate: res.updateDate
+              member_id: res.MEMBER_ID,
+              email: res.EMAIL,
+              password: res.PASSWORD,
+              authority: res.AUTHORITY,
+              credit: res.CREDIT,
+              emailActive: res.EMAILACTIVE,
+              titleName: res.TITLENAME,
+              firstName: res.FIRSTNAME,
+              lastname: res.LASTNAME,
+              idcard: res.IDCARD,
+              telephone: res.TELEPHONE,
+              createDate: res.CREATEDATE,
+              updateDate: res.UPDATEDATE
             }
 
             localStorage.setItem("userData", JSON.stringify(dataValue));

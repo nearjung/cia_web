@@ -13,8 +13,8 @@ export class PersonalService {
 
   constructor(private httpClient: HttpClient, private configService: ConfigServerService) { }
 
-  public getPersonal(firstname: string, lastname: string = '', membId: string) {
-    let params = '?firstname=' + firstname + '&lastname=' + lastname + '&membId=' + membId;
+  public getPersonal(searchTxt: string, email: string, password: string, membId: string) {
+    let params = '?searchtext=' + searchTxt + '&email=' + email + '&password=' + password + '&membId=' + membId;
     return this.httpClient.get<any>(this.configService.getAPI('api/personal/get.php') + params).pipe(
       map(respons => {
         return {

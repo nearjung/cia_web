@@ -46,7 +46,7 @@ export class CompanyComponent implements OnInit {
     this.dataTbl = true;
     this.CompanyService.getCompanyInfo(this.user.member_id, this.user.password, companyId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
-        this.dataValue = result.serviceResult.value;
+        this.dataValue = this.companyData.filter(x => x['COMP_ID'] == companyId)[0];
       }
       this.loading(false);
     }, err => {
@@ -59,7 +59,7 @@ export class CompanyComponent implements OnInit {
     this.dataTbl = false;
     this.loading(true);
     this.companyData = [];
-    this.CompanyService.getCompany(this.searchTxt).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+    this.CompanyService.getCompany(this.searchTxt, this.user.member_id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         if (result.serviceResult.value && result.serviceResult.value.length > 0) {
           this.companyData = result.serviceResult.value;

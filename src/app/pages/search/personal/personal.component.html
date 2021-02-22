@@ -9,7 +9,7 @@
           <div class="col-sm"><input [(ngModel)]="this.searchTxt" type="text" class="form_txt mb-2" placeholder="ชื่อ-นามสกุล/บัตรประชาชน"></div>
         </div>
         <div class="row">
-          <div class="col-sm"><button class="form_btn" (click)="onSubmit()">ค้นหา</button></div>
+          <div class="col-sm"><button class="form_btn" (click)="onSearch()">ค้นหา</button></div>
         </div>
       </div>
     </div>
@@ -29,11 +29,11 @@
               </thead>
               <tbody>
                 <tr *ngFor="let data of dataList">
-                  <th scope="row">{{data.IDCard}}</th>
-                  <td>{{ data.CTitle }}{{ data.CFname }} {{ data.CLname }}</td>
-                  <td>{{ data.Gender }}</td>
-                  <td>{{ year - data.BYear }}</td>
-                  <td><button type="button" class="btn btn-warning" (click)="userInfo(data.IDCard)">Detail</button></td>
+                  <th scope="row">{{data.IDCARD}}</th>
+                  <td>{{ data.FULLNAME }}</td>
+                  <td>{{ data.GENDER }}</td>
+                  <td>{{ year - data.BYEAR }}</td>
+                  <td><button type="button" class="btn btn-warning" (click)="userInfo(data.IDCARD)">Detail</button></td>
                 </tr>
               </tbody>
             </table>
@@ -50,15 +50,15 @@
               <tbody>
                 <tr>
                   <th scope="row" style="text-align: right;">รหัสบัตรประชาชน</th>
-                  <td>{{ personInfo.IDCard }}</td>
+                  <td>{{ personInfo.IDCARD }}</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">ชื่อ-นามสกุล</th>
-                  <td>{{ personInfo.CTitle }}{{ personInfo.CFname }} {{ personInfo.CLname }}</td>
+                  <td>{{ personInfo.CTITLE }}{{ personInfo.CFNAME }} {{ personInfo.CLNAME }}</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">อายุ</th>
-                  <td>{{ year - personInfo.BYear }} ปี</td>
+                  <td>{{ year - personInfo.BYEAR }} ปี</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">วัน/เดือน/ปี เกิด</th>
@@ -66,9 +66,9 @@
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">ที่อยู่</th>
-                  <td>{{ (personInfo.HouseNo)?'บ้านเลขที่ : ' + personInfo.HouseNo:'' }} {{ (personInfo.Moo)?'หมู่ : ' + personInfo.Moo:'' }} {{ (personInfo.Trok)?'ตรอก : ' + personInfo.Trok:'' }}
-                    {{ (personInfo.Soi)?'ซอย : ' + personInfo.Soi:'' }} {{ (personInfo.Street)?'ถนน : ' + personInfo.Street:'' }} {{ (personInfo.Subdistrict)?'ตำบล : ' + personInfo.Subdistrict:'' }}
-                    {{ (personInfo.District)?'อำเภอ : ' + personInfo.District:'' }} {{ (personInfo.Province)?'จังหวัด : ' + personInfo.Province:'' }}  {{ (personInfo.PostalCode)?'รหัสไปรษณีย์ : ' + personInfo.PostalCode:'' }}
+                  <td>{{ (personInfo.HOUSENO)?'บ้านเลขที่ : ' + personInfo.HOUSENO:'' }} {{ (personInfo.MOO)?'หมู่ : ' + personInfo.MOO:'' }} {{ (personInfo.TROK)?'ตรอก : ' + personInfo.TROK:'' }}
+                    {{ (personInfo.SOI)?'ซอย : ' + personInfo.SOI:'' }} {{ (personInfo.STREET)?'ถนน : ' + personInfo.STREET:'' }} {{ (personInfo.SUBDISTRICT)?'ตำบล : ' + personInfo.SUBDISTRICT:'' }}
+                    {{ (personInfo.DISTRICT)?'อำเภอ : ' + personInfo.DISTRICT:'' }} {{ (personInfo.PROVINCE)?'จังหวัด : ' + personInfo.PROVINCE:'' }}  {{ (personInfo.POSTALCODE)?'รหัสไปรษณีย์ : ' + personInfo.POSTALCODE:'' }}
                   </td>
                 </tr>
                 <tr>
@@ -77,12 +77,12 @@
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">เบอร์ติดต่อ</th>
-                  <td>เบอร์โทรศัพท์ : {{ (contact.MobilePhone)?contact.MobilePhone:'' }}<br>
-                  เบอร์โทรศัพท์บ้าน : {{ (contact.HomePhone)?contact.HomePhone:'' }}</td>
+                  <td>เบอร์โทรศัพท์ : {{ (contact.MOBILEPHONE)?contact.MOBILEPHONE:'' }}<br>
+                  เบอร์โทรศัพท์บ้าน : {{ (contact.HOMEPHONE)?contact.HOMEPHONE:'' }}</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">ระดับการศึกษา</th>
-                  <td>{{ (contact.EducationLevelThaiDesc)?contact.EducationLevelThaiDesc:'' }}</td>
+                  <td>{{ (contact.EDUCATIONLEVELTHAIDESC)?contact.EDUCATIONLEVELTHAIDESC:'' }}</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">อีเมล</th>
@@ -90,15 +90,15 @@
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">ชื่อที่ทำงานปัจจุบัน</th>
-                  <td>{{ workplace.company }}</td>
+                  <td>{{ workplace.COMPANY }}</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">วันที่เริ่มงาน</th>
-                  <td>{{ workplace.emp_date }}</td>
+                  <td>{{ workplace.EMP_DATE }}</td>
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">ที่อยู่บริษัท</th>
-                  <td>{{ workplace.address1 + workplace.address2 }}</td>
+                  <td>{{ workplace.ADDRESS1 + workplace.ADDRESS2 }}</td>
                 </tr>
                 <tr>
                   <td colspan="2" class="text-center"><button class="btn btn-warning" (click)="back(1)">BACK</button></td>
@@ -186,7 +186,7 @@
                 </tr>
                 <tr>
                   <th scope="row" style="text-align: right;">การชำระเงิน</th>
-                  <td>{{ vehicle.Payment }}</td>
+                  <td>{{ vehicle.PAYMENT }}</td>
                 </tr>
                 <tr>
                   <td colspan="2" class="text-center"><button class="btn btn-warning" (click)="back(2)">BACK</button></td>

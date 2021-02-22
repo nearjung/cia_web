@@ -5,7 +5,7 @@ import { VehicleService } from '../../../service/vehicle.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal',
@@ -35,11 +35,22 @@ export class PersonalComponent implements OnInit {
     private toast: ToastrService,
     private router: Router,
     private VehicleService: VehicleService
+    , private routerActive: ActivatedRoute
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
       //location.reload();
       return;
+    }
+
+
+    this.routerActive.queryParams.subscribe(params => {
+      this.searchTxt = params["searchTxt"];
+      this.idCard = params["idCard"];
+    });
+
+    if (this.searchTxt) {
+      this.onSubmit();
     }
   }
 
@@ -52,20 +63,22 @@ export class PersonalComponent implements OnInit {
     this.loading(false);
   }
 
+  onSearch() {
+    this.router.navigate(['/personal'], {
+      queryParams: {
+        searchTxt: this.searchTxt,
+      },
+    });
+    this.onSubmit();
+  }
+
   onSubmit() {
     this.dataList = [];
     this.dataTbl = false;
     this.dataTblVehicle = false;
     this.showData = true;
     this.loading(true);
-    if (!+this.searchTxt) {
-      this.firstname = this.searchTxt.split(' ')[0];
-      this.lastname = this.searchTxt.split(' ')[1];
-    } else {
-      this.firstname = this.searchTxt;
-      this.lastname = undefined;
-    }
-    this.PersonalService.getPersonal(this.firstname, this.lastname, this.user.member_id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+    this.PersonalService.getPersonal(this.searchTxt, this.user.email, this.user.password, this.user.member_id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         if (result.serviceResult.value && result.serviceResult.value.length > 0) {
           this.dataList = result.serviceResult.value;
@@ -82,7 +95,6 @@ export class PersonalComponent implements OnInit {
       this.loading(false);
     })
 
-    this.searchTxt = null;
   }
 
   vehicleInfo(plate1: string, plate2: string, numbody: string = '', numengine: string = '', mode: string = 'car') {
@@ -105,6 +117,7 @@ export class PersonalComponent implements OnInit {
   }
 
   userInfo(idCard: string) {
+    this.loading(true);
     this.idCard = idCard;
     this.dataTbl = true;
     this.showData = true;
@@ -114,6 +127,7 @@ export class PersonalComponent implements OnInit {
     this.PersonalService.getPersonalInfo(idCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         this.personInfo = result.serviceResult.value;
+        this.loading(false);
         if (result.serviceResult.value && result.serviceResult.value.customer) {
           this.contact = result.serviceResult.value.customer;
         }
@@ -122,6 +136,7 @@ export class PersonalComponent implements OnInit {
         }
       }
     }, err => {
+      this.loading(false);
       this.toast.error(err);
     })
   }
@@ -135,10 +150,10 @@ export class PersonalComponent implements OnInit {
   }
 
   back(mode) {
-    if(mode == 1) {
+    if (mode == 1) {
       this.dataTbl = false;
       this.showData = false;
-    } else if(mode == 2) {
+    } else if (mode == 2) {
       this.dataTblVehicle = false;
       this.userInfo(this.idCard);
     }
