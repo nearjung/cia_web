@@ -1,155 +1,149 @@
-<div class="row d-flex justify-content-center" style="margin-top: 50px;">
-    <div class="col-sm-2 mb-1">
-      <div class="bg-black p-2">
-        <div class="text-center">
-          <label class="m-0" style="font-size: 1.1rem;">Company Search</label>
-          <hr style="border-color: rgb(49, 49, 49);">
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+        <div class="col-sm-2 mb-1">
+            <mat-card class="hover mat-card">
+                <mat-card-content>
+                    <div class="text-center">
+                        <label class="m-0" style="font-size: 1.1rem;">Company Search</label>
+                        <hr style="border-color: rgb(49, 49, 49);">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm"><input [(ngModel)]="this.companyName" type="text" class="form_txt mb-2"
+                                placeholder="ชื่อบริษัท / หมายเลขผู้เสียภาษี"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm"><input [(ngModel)]="this.capital1" type="tel" class="form_txt mb-2"
+                                placeholder="ทุนจดทะเบียนเริ่มต้น"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm"><input [(ngModel)]="this.capital2" type="tel" class="form_txt mb-2"
+                                placeholder="ทุนจดทะเบียนสิ้นสุด"></div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-sm"><input [(ngModel)]="this.searchTxt" type="text" class="form_txt mb-2"
+                                placeholder="กำไรขาดทุน (2 ปีล่าสุด)"></div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-sm"><input [(ngModel)]="this.objective" type="text" class="form_txt mb-2"
+                                placeholder="วัตถุประสงค์ของบริษัท"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm">
+                        <div class="form-group text-left mb-2"><label class="label-search">บริษัทในพื้นที่</label>
+                          <select [(ngModel)]="province" class="form_select">
+                            <option value=""></option>
+                            <option *ngFor="let data of provinceList" value="{{ data.ProvinceThai }}">{{ data.ProvinceThai }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm"><button class="form_btn" (click)="onSubmit()">ค้นหา</button></div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
         </div>
-        <div class="row">
-          <div class="col-sm"><input [(ngModel)]="this.searchTxt" type="text" class="form_txt mb-2" placeholder="ชื่อบริษัท / หมายเลขผู้เสียภาษี"></div>
-        </div>
-        <div class="row">
-          <div class="col-sm"><button class="form_btn" (click)="onSubmit()">ค้นหา</button></div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="bg-black p-2">
-        <div style="margin:20px;">
-            <div *ngIf="!dataTbl" class="table-responsive-sm">
-                <table class="table table-striped table-dark">
-                  <thead>
-                    <tr>
-                      <th scope="col">เลขประจำตัวผู้เสียภาษี</th>
-                      <th scope="col">ชื่อบริษัท</th>
-                      <th scope="col">จังหวัด</th>
-                      <th scope="col">#</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let data of companyData">
-                      <th scope="row">{{ data.COMP_ID }}</th>
-                      <td>{{ data.COMP_NAME }}</td>
-                      <td>{{ data.COMP_ADDRESS4 }}</td>
-                      <td><button type="button" class="btn btn-warning" (click)="companyInfo(data.COMP_ID)">Detail</button></td>
-                    </tr>
-                  </tbody>
-                </table>
-            </div>
+        <div class="col-sm-8">
+            <mat-card class="hover mat-card">
+                <mat-card-content>
+                    <div *ngIf="!dataTbl && isShowList" class="table-responsive-sm">
+                        <table class="table table-hover table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">เลขประจำตัวผู้เสียภาษี</th>
+                                    <th scope="col">ชื่อบริษัท</th>
+                                    <th scope="col">สถานะ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of companyData" style="cursor: pointer;" (click)="companyInfo(data.companyCode)">
+                                    <th scope="row">{{ data.companyCode }}</th>
+                                    <td>{{ data.companyName }}</td>
+                                    <td>{{ data.statusCompany }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-            <div *ngIf="dataTbl" class="table-responsive-sm">
-                <table class="table table-hover table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">หัวข้อ</th>
-                            <th scope="col">รายละเอียด</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row" style="text-align: right;">ชื่อบริษัท</th>
-                            <td>{{ dataValue.COMP_NAME }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">หมายเลขผู้เสียภาษี</th>
-                            <td>{{ dataValue.COMP_ID }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">ประเภทบริษัท</th>
-                            <td>{{ dataValue.TYPE_COMP }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">วันที่จดทะเบียน</th>
-                            <td>{{ dataValue.REGIST_DATE }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">รายละเอียดธุรกิจ</th>
-                            <td>{{ dataValue.OBJECT_DETAIL }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">สถานะ</th>
-                            <td>{{ dataValue.STATUS_COMP }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">บอร์ดบริหารอื่นๆ</th>
-                            <td><span *ngIf="dataValue.BOARD_ACTION_1TH">{{ dataValue.BOARD_ACTION_1TH }} <br></span>
-                                <span *ngIf="dataValue.BOARD1">{{ dataValue.BOARD1 }} <br></span>
-                                <span *ngIf="dataValue.BOARD2">{{ dataValue.BOARD2 }} <br></span>
-                                <span *ngIf="dataValue.BOARD3">{{ dataValue.BOARD3 }} <br></span>
-                                <span *ngIf="dataValue.BOARD4">{{ dataValue.BOARD4 }} <br></span>
-                                <span *ngIf="dataValue.BOARD5">{{ dataValue.BOARD5 }} <br></span>
-                                <span *ngIf="dataValue.BOARD6">{{ dataValue.BOARD6 }} <br></span>
-                                <span *ngIf="dataValue.BOARD7">{{ dataValue.BOARD7 }} <br></span>
-                                <span *ngIf="dataValue.BOARD8">{{ dataValue.BOARD8 }} <br></span>
-                                <span *ngIf="dataValue.BOARD9">{{ dataValue.BOARD9 }} <br></span>
-                                <span *ngIf="dataValue.BOARD10">{{ dataValue.BOARD10 }} <br></span>
-                                <span *ngIf="dataValue.BOARD11">{{ dataValue.BOARD11 }} <br></span>
-                                <span *ngIf="dataValue.BOARD12">{{ dataValue.BOARD12 }} <br></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">ทุนจดทะเบียน</th>
-                            <td>{{ dataValue.CAPITAL | number }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">ที่ตั้งบริษัท</th>
-                            <td>{{ dataValue.COMP_ADDRESS }} {{ dataValue.COMP_ADDRESS1 }} {{ dataValue.COMP_ADDRESS2 }} {{ dataValue.COMP_ADDRESS3 }} {{ dataValue.comp_address4 }} {{ dataValue.post_number }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">ปีที่ส่งงบ</th>
-                            <td>{{ dataValue.SEND_MONEY }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">เบอร์โทรศัพท์</th>
-                            <td>{{ dataValue.T_TEL1 }} {{ dataValue.T_TEL2 }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">แฟกซ์</th>
-                            <td>{{ dataValue.T_FAX1 }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">อีเมล</th>
-                            <td>{{ dataValue.EMAIL }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">เว็บไซต์</th>
-                            <td>{{ dataValue.WEB }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">จำนวนพนักงาน</th>
-                            <td>{{ dataValue.EMPLOYEE }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">งบปี</th>
-                            <td>{{ dataValue.M_MONEY_YEAR }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">สินทรัพย์</th>
-                            <td>{{ dataValue.M_MONEY_YEAR }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">หนี้สิน</th>
-                            <td>{{ dataValue.M_DEBT | number }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">รายได้</th>
-                            <td>{{ dataValue.M_REVENUE | number }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">รายจ่าย</th>
-                            <td>{{ dataValue.M_EXPENDITURE | number }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">กำไร</th>
-                            <td>{{ dataValue.M_PROFIT | number }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row" style="text-align: right;">วันที่อัพเดท</th>
-                            <td>{{ dataValue.UPDATETIME }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-      </div>
+                    <div *ngIf="dataTbl" class="table-responsive-sm">
+                        <table class="table table-hover table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">หัวข้อ</th>
+                                    <th scope="col">รายละเอียด</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row" style="text-align: right; min-width: 30%;">ชื่อบริษัท</th>
+                                    <td>{{ dataValue.companyName }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">หมายเลขผู้เสียภาษี</th>
+                                    <td>{{ dataValue.companyCode }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">ประเภทบริษัท</th>
+                                    <td>{{ dataValue.typeCompany }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">วันที่จดทะเบียน</th>
+                                    <td>{{ dataValue.registerDate }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">รายละเอียดธุรกิจ</th>
+                                    <td>{{ dataValue.objectivesRegistration }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">สถานะ</th>
+                                    <td>{{ dataValue.statusCompany }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">ที่อยู่บริษัท</th>
+                                    <td>{{ dataValue.address }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">ทุนจดทะเบียน</th>
+                                    <td>{{ dataValue.registeredCapital }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">จำนวนพนักงาน</th>
+                                    <td>{{ dataValue.originalRegistrationNumber }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">เบอร์โทรศัพท์</th>
+                                    <td>{{ dataValue.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">แฟ็กซ์</th>
+                                    <td>{{ dataValue.fax }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">เว็บไซต์</th>
+                                    <td>{{ dataValue.webSite }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">อีเมล</th>
+                                    <td>{{ dataValue.email }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">Director</th>
+                                    <td>{{ dataValue.bindingDirector }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: right;">Board of director</th>
+                                    <td>{{ dataValue.boardOfDirectors }}</td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2" class="text-center"><button class="btn btn-warning" (click)="back(1)">BACK</button>
+                                  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
 </div>

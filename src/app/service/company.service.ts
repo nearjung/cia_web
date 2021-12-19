@@ -13,8 +13,8 @@ export class CompanyService {
 
   constructor(private httpClient: HttpClient, private configService: ConfigServerService) { }
 
-  public getCompany(searchTxt: string, membId: string) {
-    let params = '?searchTxt=' + searchTxt + '&membId=' + membId;
+  public getCompany(companyName: string, capital1: string, capital2: string, objective: string, province: string, memberId: string, mode: string) {
+    let params = '?companyName=' + companyName + '&membId=' + memberId + '&mode=' + mode + '&capital1=' + capital1 + '&capital2=' + capital2 + '&objective=' + objective + '&province=' + province;
     return this.httpClient.get<any>(this.configService.getAPI('api/company/get.php') + params).pipe(
       map(respons => {
         return {

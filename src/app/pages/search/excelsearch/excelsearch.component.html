@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-2 col-md-5 col-sm-12 mb-2">
+      <mat-card class="hover mat-card ">
+        <mat-card-header>
+          <mat-card-title>ข้อมูลที่ต้องการค้นหา</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-action-list style="width: auto;" class="side-content">
+            <button (click)="pages = 'idcard'; creditList(3);" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/card-svgrepo-com.svg"> ค้นหาด้วยบัตรประชาชน </button>
+            <button (click)="pages = 'person'; creditList(4);" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/man-svgrepo-com.svg"> ค้นหาด้วยชื่อ-นามสกุล </button>
+            <button (click)="pages = 'phone'; creditList(5);" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/smartphone-svgrepo-com.svg"> ค้นหาด้วยเบอร์โทรศัพท์ </button>
+        </mat-action-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-lg-10 col-md-7 col-sm-12">
+      <mat-card class="hover mat-card">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-12">
+              <h2 *ngIf="pages == 'idcard'"><mat-icon style="color: yellow;">search</mat-icon> ค้นหาด้วยบัตรประชาชน</h2>
+              <h2 *ngIf="pages == 'person'"><mat-icon style="color: rgb(0, 171, 194);">search</mat-icon> ค้นหาด้วยชื่อ-นามสกุล</h2>
+              <h2 *ngIf="pages == 'phone'"><mat-icon style="color: rgb(250, 79, 241);">search</mat-icon> ค้นหาด้วยเบอร์โทรศัพท์</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="upload-box">
+                <ng-container *ngIf="!upload">
+                  <input (change)="fileChangeListener($event)" type="file" id="upload" hidden/>
+                  <label class="upload-label" for="upload">Choose file</label>
+                </ng-container>
+                <ng-container *ngIf="upload">
+                  <div style="color: greenyellow;margin-top: 23px;text-align: center;">อัพโหลด {{ fileName }} สำเร็จ !</div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              ท่านสามารถ Download Template สำหรับกรอกข้อมูลได้ที่นี่&nbsp;<button (click)="downloadTemplate()" mat-button color="accent">Download</button>
+            </div>
+          </div>
+          
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

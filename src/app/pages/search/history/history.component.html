@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <mat-card class="hover mat-card">
+    <mat-card-content>
+      <table class="table table-hover table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Module</th>
+            <th scope="col">Key Search</th>
+            <th scope="col">Create Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of dataList; index as number" style="cursor: pointer;" (click)="logWatch(data.logMasterId, data.module)">
+            <th scope="row"> {{ number + 1 }} </th>
+            <td>{{data.module}}</td>
+            <td>{{data.keySearch}}</td>
+            <td>{{data.createDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

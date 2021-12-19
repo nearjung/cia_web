@@ -1,20 +1,28 @@
-<nav *ngIf="user" class="navbar fixed-top navbar-expand-lg top-menu">
-  <a class="navbar-brand" href="#">CIA</a>
-  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
-  </button>
+<mat-toolbar color="primary">
+    <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>CIA Data | Credit : {{ credit | number }}</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon (click)="navigate('profile');">person</mat-icon>
+    </button>
+</mat-toolbar>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-          <li *ngFor="let item of menu;">
-              <div class="top_link nav-item {{ item.active }}" (click)="navigate(item.link)" style="color: #FFF;">{{ item.text }}&nbsp;&nbsp;&nbsp;&nbsp;</div>
-          </li>
-          <li>
-              <div class="top_link nav-item" (click)="navigate('login')" style="color: #FFF;">Log out&nbsp;&nbsp;&nbsp;&nbsp;</div>
-          </li>
-      </ul>
-  </div>
-</nav>
-<div style="margin-top: 60px;">
-    <router-outlet></router-outlet>
-</div>
+<mat-drawer-container autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 60px;">
+    <mat-drawer #drawer mode="over" class="toolbar">
+        <mat-action-list class="side-content">
+            <button (click)="navigate('home'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/home-svgrepo-com.svg"> หน้าหลัก </button>
+            <button (click)="navigate('personal'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/policeman-svgrepo-com.svg"> ระบบค้นหาบุคคล </button>
+            <button (click)="navigate('company'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/business-bag-svgrepo-com.svg"> ระบบค้นหาบริษัท </button>
+            <button (click)="navigate('vehicle'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/car-svgrepo-com.svg"> ระบบค้นหาพาหนะ </button>
+            <button (click)="navigate('excelsearch'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/csv-svgrepo-com.svg"> ระบบค้นหาด้วย Excel </button>
+            <button (click)="navigate('history'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/clock-svgrepo-com.svg"> ประวัติการค้นหา </button>
+            <button (click)="navigate('login'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/exit-logout-svgrepo-com.svg"> ออกจากระบบ </button>
+        </mat-action-list>
+    </mat-drawer>
+    <div style="margin-top: 20px;">
+        <router-outlet></router-outlet>
+    </div>
+</mat-drawer-container>

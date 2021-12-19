@@ -1,31 +1,68 @@
-<loading [enable]="isLoading"></loading>
-
-<div class="row d-flex justify-content-center" style="margin-top: 50px;">
-    <div class="col-sm-2 mb-1">
-      <div class="bg-black p-2">
-        <div class="text-center">
-          <label class="m-0" style="font-size: 1.1rem;">Agent Information</label>
-          <hr style="border-color: rgb(49, 49, 49);">
-        </div>
-        <div class="row">
-          <div class="col-sm">Email: {{ user.email }}</div>
-        </div>
-        <div class="row">
-          <div class="col-sm">Name: {{ user.title }}{{ user.firstName }} {{ user.lastName }}</div>
-        </div>
-        <div class="row">
-          <div class="col-sm">Phone: {{ user.telephone }}</div>
-        </div>
-        <div class="row">
-          <div class="col-sm">Credit: {{ user.credit | number }}</div>
-        </div>
-      </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 mb-1">
+      <!-- <div class="col-sm-3 mb-1" *ngIf="menuActive.personal"> -->
+      <mat-card (click)="navigate('personal')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/policeman-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ระบบค้นหาบุคคล</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
     </div>
-    <div class="col-sm-8">
-      <div class="bg-black p-2">
-        <div class="text-center" style="margin:20px;">
-          Please select menu
-        </div>
-      </div>
+    <div class="col-sm-3 mb-1">
+      <!-- <div class="col-sm-3 mb-1" *ngIf="menuActive.company"> -->
+      <mat-card (click)="navigate('company')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/business-bag-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ระบบค้นหาบริษัท</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
     </div>
+    <div class="col-sm-3 mb-1">
+      <!-- <div class="col-sm-3 mb-1" *ngIf="menuActive.vehicle"> -->
+      <mat-card (click)="navigate('vehicle')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/car-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ระบบค้นหาพาหนะ</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+    <div class="col-sm-3 mb-1">
+      <mat-card (click)="navigate('excelsearch')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/csv-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ระบบค้นหาด้วย Excel</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+    <div class="col-sm-3 mb-1">
+      <mat-card (click)="navigate('history')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/clock-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ประวัติการค้นหา</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+    <!-- Admin -->
+    <div *ngIf="user.authority == 'Admin'" class="col-sm-3 mb-1">
+      <mat-card (click)="navigate('admin')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/admin-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ผู้ดูแลระบบ</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
 </div>

@@ -15,6 +15,7 @@ export class MemberService {
   constructor(private httpClient: HttpClient, private configService: ConfigServerService) { }
 
   public userLogin(email: string, password: string) {
+    const headers = new HttpHeaders();
     let params = '?email=' + email + '&password=' + password;
     return this.httpClient.get<any>(this.configService.getAPI('api/user/userLogin.php') + params).pipe(
       map(respons => {
@@ -71,8 +72,28 @@ export class MemberService {
   }
 
   public register(email: string, password: string, titleName: string, fullName: string, idCard: string, telephone: string, token: string, credit: number = 0) {
-    let params = '?email=' + email + '&password=' + password + '&titleName=' + titleName + '&fullName=' + fullName + '&idCard=' + idCard + '&telephone=' + telephone + '&token=' + token + '&credit=' + credit;
+    let params = '?email=' + email + '&password=' + password + '&titleName=' + titleName + '&fullName=' + fullName + '&idCard=' + idCard + '&telephone=' + telephone + '&credit=' + credit;
     return this.httpClient.get<any>(this.configService.getAPI('api/user/register.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public updateUser(memberId: string, email: string, titleName: string, fullName: string, idCard: string, telephone: string, token: string, credit: number = 0, accActive: boolean = false) {
+    let params = '?memberId=' + memberId + '&email=' + email + '&titleName=' + titleName + '&fullName=' + fullName + '&idCard=' + idCard + '&telephone=' + telephone + '&credit=' + credit + '&accActive=' + accActive;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/updateUser.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public deleteUser(memberId: string) {
+    let params = '?memberId=' + memberId;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/deleteUser.php') + params).pipe(
       map(respons => {
         return {
           serviceResult: respons
@@ -230,6 +251,45 @@ export class MemberService {
   public chkResetPass(email: string, idcard: string) {
     let params = '?email=' + email + '&idcard=' + idcard;
     return this.httpClient.get<any>(this.configService.getAPI('api/user/resetPasschk.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public getLog(memberId: string) {
+    let params = '?memberId=' + memberId;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/getlog.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public getLogMaster(memberId: string) {
+    let params = '?memberId=' + memberId;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/getLogMaster.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public getLogById(memberId: string, logMasterId: string, auth: string) {
+    let params = '?memberId=' + memberId + '&logMasterId=' + logMasterId + '&auth=' + auth;
+    return this.httpClient.get<any>(this.configService.getAPI('api/user/getlogbyid.php') + params).pipe(
+      map(respons => {
+        return {
+          serviceResult: respons
+        }
+      }));
+  }
+
+  public sendLog(data: any) {
+    return this.httpClient.post<any>(this.configService.getAPI('api/user/log.php'), data).pipe(
       map(respons => {
         return {
           serviceResult: respons

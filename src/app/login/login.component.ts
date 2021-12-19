@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
+import { AuthService } from '../service/auth.service';
+import { userInfo } from '../core/middleclass';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private memberService: MemberService,
     private toast: ToastrService,
-    private router: Router
+    private router: Router,
+    private authSerive: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -39,48 +41,48 @@ export class LoginComponent implements OnInit {
       this.toast.error("กรุณากรอกข้อมูลให้ครบทุกช่อง !");
       this.isLoading = false;
     } else {
-      this.memberService.userLogin(this.email, this.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      this.authSerive.login(this.email, this.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         if (result.serviceResult.status == "Success") {
           var res = result.serviceResult.value;
-          if (res.accActive == 0) {
-            this.toast.error("กรุณารอการยืนยันจากทางผู้ดูแลระบบ !");
-          } else if(res.emailActive == 0) {
-            this.toast.error("กรุณายืนยัน Email ก่อน !");
-          } else {
-            var dataValue = {
-              member_id: res.MEMBER_ID,
-              email: res.EMAIL,
-              password: res.PASSWORD,
-              authority: res.AUTHORITY,
-              credit: res.CREDIT,
-              emailActive: res.EMAILACTIVE,
-              titleName: res.TITLENAME,
-              firstName: res.FIRSTNAME,
-              lastname: res.LASTNAME,
-              idcard: res.IDCARD,
-              telephone: res.TELEPHONE,
-              createDate: res.CREATEDATE,
-              updateDate: res.UPDATEDATE
-            }
-
-            localStorage.setItem("userData", JSON.stringify(dataValue));
-            window.location.href = "/";
-            this.toast.success("เข้าสู่ระบบสำเร็จ");
+          var dataValue = {
+            member_id: res.member_id,
+            email: res.email,
+            password: res.password,
+            authority: res.authority,
+            credit: res.credit,
+            emailActive: res.emailActive,
+            titleName: res.titleName,
+            firstName: res.firstName,
+            lastname: res.lastname,
+            idcard: res.idcard,
+            telephone: res.telephone,
+            accActive: res.accActive,
+            createDate: res.createDate,
+            updateDate: res.updateDate,
+            token: res.token,
+            tokenExpire: res.tokenexpire
           }
+
+          userInfo.credit = +res.credit;
+
+          localStorage.setItem("userData", JSON.stringify(dataValue));
+          window.location.href = "/";
+          this.toast.success("เข้าสู่ระบบสำเร็จ");
           this.isLoading = false;
         } else {
           this.toast.error("ชื่อบัญชีหรือรหัสผ่านผิดพลาด !");
           this.isLoading = false;
         }
+
       })
     }
   }
 
-  register(){
+  register() {
     this.router.navigate(['/register']);
   }
 
-  forgetpass(){
+  forgetpass() {
     this.router.navigate(['/forgetpass']);
   }
 

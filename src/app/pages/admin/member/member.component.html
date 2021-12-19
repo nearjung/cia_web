@@ -1,4 +1,5 @@
-<div class="row d-flex justify-content-center" style="margin-top: 50px;">
+<div class="container-fluid">
+  <div class="row d-flex justify-content-center">
     <div class="col-sm-2 mb-1">
       <div class="bg-black p-2">
         <div class="text-center">
@@ -7,17 +8,22 @@
         </div>
 
         <div class="row">
-            <div class="col-sm"><button class="form_btn" (click)="onPage('main')">สมาชิก</button></div>
+          <div class="col-sm"><button class="form_btn" (click)="onPage('register'); this.idCard = ''; this.titleName = ''; 
+            this.email = ''; this.telephone = ''; this.creditUser = 0; this.memberId = ''; this.fullName = '';">เพิ่มสมาชิก</button></div>
         </div>
-        
+
         <div class="row">
-            <div class="col-sm"><button class="form_btn" (click)="onPage('manageprice')">แก้ไขราคา</button></div>
+          <div class="col-sm"><button class="form_btn" (click)="onPage('main')">สมาชิก</button></div>
         </div>
-        
+
         <div class="row">
-            <div class="col-sm"><button class="form_btn" (click)="onPage('apilog')">API-LOG</button></div>
+          <div class="col-sm"><button class="form_btn" (click)="onPage('manageprice')">แก้ไขราคา</button></div>
         </div>
-          
+
+        <div class="row">
+          <div class="col-sm"><button class="form_btn" (click)="onPage('apilog')">API-LOG</button></div>
+        </div>
+
       </div>
     </div>
     <div class="col-sm-8">
@@ -25,37 +31,39 @@
         <div style="margin:20px;">
           <div *ngIf="paged == 'main'" class="table-responsive-sm">
             <div class="row mb-3">
-                <div class="col-sm-3">
-                  <select [(ngModel)]="filterdata" class="form_select mb-2 ng-pristine" (change)="onMember($event.target.value)">
-                    <option value="All">ทั้งหมด</option>
-                    <option value="Confirm">สมาชิกที่ยืนยันแล้ว</option>
-                    <option value="NotConfirm">สมาชิกที่ยังไม่ยืนยัน</option>
-                  </select>
-                </div>
-                <div class="col-sm-6"></div>
-                <div class="col-sm-3"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">เพิ่มสมาชิก</button></div>
-                
+              <div class="col-sm-3">
+                <select [(ngModel)]="filterdata" class="form_select mb-2 ng-pristine"
+                  (change)="onMember($event.target.value)">
+                  <option value="All">ทั้งหมด</option>
+                  <option value="Confirm">สมาชิกที่ยืนยันแล้ว</option>
+                  <option value="NotConfirm">สมาชิกที่ยังไม่ยืนยัน</option>
+                </select>
+              </div>
+              <div class="col-sm-6"></div>
+              <div class="col-sm-3"></div>
+
             </div>
             <div class="row">
               <div class="col-sm">
-                  <table class="table table-striped table-dark">
-                    <thead>
-                      <tr>
-                        <th scope="col">รหัสบัตรประชาชน</th>
-                        <th scope="col">ชื่อ-นามสกุล</th>
-                        <th scope="col">อีเมล</th>
-                        <th scope="col">#</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let data of filterMember">
-                        <th scope="row">{{ data.idcard }}</th>
-                        <td>{{ data.firstName }} {{ data.lastname }}</td>
-                        <td>{{ data.email }}</td>
-                        <td><button type="button" class="btn btn-warning" (click)="memberInfo(data.member_id)">Detail</button>&nbsp;<button *ngIf="data.accActive == 0" type="button" class="btn btn-success" (click)="confirm(data.member_id)">Confirm</button></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <table class="table table-striped table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">รหัสบัตรประชาชน</th>
+                      <th scope="col">ชื่อ-นามสกุล</th>
+                      <th scope="col">อีเมล/User</th>
+                      <th scope="col">#</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of filterMember">
+                      <th scope="row">{{ data.idcard }}</th>
+                      <td>{{ data.firstName }} {{ data.lastname }}</td>
+                      <td>{{ data.email }}</td>
+                      <td><button type="button" class="btn btn-warning"
+                          (click)="memberInfo(data.member_id)">Detail</button>&nbsp;<button (click)="watchLog(data.member_id)" type="button" class="btn btn-info">Log</button></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -63,71 +71,140 @@
           <div *ngIf="paged == 'memberInfo'" class="table-responsive-sm">
             <table class="table table-bordered table-hover table-dark">
               <thead>
-                  <tr>
-                      <th scope="col" class="text-center">หัวข้อ</th>
-                      <th scope="col" class="text-center">ข้อมูล</th>
-                  </tr>
+                <tr>
+                  <th scope="col" class="text-center">หัวข้อ</th>
+                  <th scope="col" class="text-center">ข้อมูล</th>
+                </tr>
               </thead>
               <tbody>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">รหัสบัตรประชาชน</th>
-                      <td>{{ memberInformation.idcard }}</td>
-                      <!---->
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">ชื่อ-นามสกุล</th>
-                      <td>{{ memberInformation.titleName }}{{ memberInformation.firstName }} {{ memberInformation.lastName }}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">อีเมล</th>
-                      <td>{{ memberInformation.email }}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">เบอร์โทรศัพท์</th>
-                      <td>{{ memberInformation.telephone }}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">เครดิต</th>
-                      <td>{{ memberInformation.credit | number }}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">ยืนยันอีเมล</th>
-                      <td><span *ngIf="memberInformation.emailActive == 0" style="color: red;">ยังไม่ยืนยัน</span>
-                        <span *ngIf="memberInformation.emailActive == 1" style="color: green;">ยืนยัน</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">ยืนยันบัญชี</th>
-                      <td><span *ngIf="memberInformation.accActive == 0" style="color: red;">ยังไม่ยืนยัน</span>
-                        <span *ngIf="memberInformation.accActive == 1" style="color: green;">ยืนยัน</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">วันที่สมัคร</th>
-                      <td>{{ memberInformation.createDate | date: 'dd/MM/yyyy hh:mm'}}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row" class="text-right auto_width">อัพเดทล่าสุด</th>
-                      <td>{{ memberInformation.updateDate | date: 'dd/MM/yyyy hh:mm' }}</td>
-                  </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">รหัสบัตรประชาชน</th>
+                  <td>
+                    <mat-form-field class="form-field" style="margin-top: -16px;">
+                      <input matInput type="text" [(ngModel)]="idCard">
+                      <button mat-button *ngIf="idCard" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="idCard=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </td>
+                  <!---->
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">คำนำหน้าชื่อ</th>
+                  <td>
+                    <mat-form-field class="form-field" style="margin-top: -16px;">
+                      <input matInput type="text" [(ngModel)]="titleName">
+                      <button mat-button *ngIf="titleName" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="titleName=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </td>
+                  <!---->
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">ชื่อ-นามสกุล</th>
+                  <td>
+                    <mat-form-field class="form-field" style="margin-top: -16px;">
+                      <input matInput type="text" [(ngModel)]="fullName">
+                      <button mat-button *ngIf="fullName" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="fullName=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </td>
+                  <!---->
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">ชื่อบัญชี</th>
+                  <td>
+                    <mat-form-field class="form-field" style="margin-top: -16px;">
+                      <input matInput type="text" [(ngModel)]="email" pattern="[a-zA-Z ]*">
+                      <button mat-button *ngIf="email" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="email=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </td>
+                  <!---->
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">เบอร์โทรศัพท์</th>
+                  <td>
+                    <mat-form-field class="form-field" style="margin-top: -16px;">
+                      <input matInput type="text" [(ngModel)]="telephone">
+                      <button mat-button *ngIf="telephone" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="telephone=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </td>
+                  <!---->
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">เครดิต</th>
+                  <td>
+                    <mat-form-field class="form-field" style="margin-top: -16px;">
+                      <input matInput type="text" [(ngModel)]="creditUser">
+                      <button mat-button *ngIf="creditUser" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="creditUser=''">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </td>
+                  <!---->
+                </tr>
+                <!-- <tr>
+                  <th scope="row" class="text-right auto_width">ยืนยันอีเมล</th>
+                  <td><span *ngIf="memberInformation.emailActive == 0" style="color: red;">ยังไม่ยืนยัน</span>
+                    <span *ngIf="memberInformation.emailActive == 1" style="color: green;">ยืนยัน</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">ยืนยันบัญชี</th>
+                  <td><span *ngIf="memberInformation.accActive == 0" style="color: red;">ยังไม่ยืนยัน</span>
+                    <span *ngIf="memberInformation.accActive == 1" style="color: green;">ยืนยัน</span>
+                  </td>
+                </tr> -->
+                <tr>
+                  <th scope="row" class="text-right auto_width">เปิดดูรูปภาพ</th>
+                  <td><section class="example-section">
+                    <mat-checkbox class="example-margin" [(ngModel)]="accActive">Active</mat-checkbox>
+                  </section></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">วันที่สมัคร</th>
+                  <td>{{ memberInformation.createDate | date: 'dd/MM/yyyy hh:mm'}}</td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-right auto_width">อัพเดทล่าสุด</th>
+                  <td>{{ memberInformation.updateDate | date: 'dd/MM/yyyy hh:mm' }}</td>
+                </tr>
+                <tr>
+                  <th colspan="2" scope="row" class="text-right auto_width">
+                    <button class="btn btn-success" (click)="onUpdate(memberId)">อัพเดทบัญชี</button>&nbsp;
+                    <button class="btn btn-danger" (click)="onDelete(memberId)">ลบบัญชี</button>
+                  </th>
+                </tr>
               </tbody>
             </table>
             <div class="row">
-              <div class="col-sm-3">
-                <span style="font-size: 18px; font-weight: bold;">เพิ่มเครดิต</span>
-                <input [(ngModel)]="this.creditamount" type="number" class="form_txt mb-2" placeholder="จำนวนเครดิต">
-                <button type="button" class="form_btn" (click)="addCredit(memberInformation.email, memberInformation.member_id)">Submit</button>
-              </div>
-              <div class="col-sm-9">
+              <div class="col-sm-12">
                 <div class="row">
                   <div class="col-sm-6">
                     <div class="example-container">
                       <span style="font-size: 18px; font-weight: bold;">Menu Disable</span>
-                      <div *ngFor="let menu of disableMenuList" class="example-box" (click)="menuEdit('active', memberInformation.member_id, menu.menuId)">{{ menu.menuName }}</div>
+                      <div *ngFor="let menu of disableMenuList" class="example-box"
+                        (click)="menuEdit('active', memberInformation.member_id, menu.menuId)">{{ menu.menuName }}</div>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="example-container">
                       <span style="font-size: 18px; font-weight: bold;">Menu Active</span>
-                      <div *ngFor="let menu of activeMenuList" class="example-box-success" (click)="menuEdit('disable', memberInformation.member_id, menu.menuId)">{{ menu.menuName }}</div>
+                      <div *ngFor="let menu of activeMenuList" class="example-box-success"
+                        (click)="menuEdit('disable', memberInformation.member_id, menu.menuId)">{{ menu.menuName }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -174,7 +251,7 @@
           </div>
 
 
-          
+
           <div *ngIf="paged == 'apilog'" class="table-responsive-sm">
             <table class="table table-striped table-dark">
               <thead>
@@ -188,44 +265,45 @@
                 <tr *ngFor="let data of apiList">
                   <th scope="row">{{ data.cert_key }}</th>
                   <td>{{ data.company }}</td>
-                  <td><button type="button" class="btn btn-warning" (click)="getApiLog(data.cert_key)">Download</button></td>
+                  <td><button type="button" class="btn btn-warning" (click)="getApiLog(data.cert_key)">Download</button>
+                  </td>
                 </tr>
               </tbody>
-          </table>
+            </table>
+          </div>
+
+          <!-- Register Start -->
+          <div class="col" *ngIf="paged == 'register'">
+            <div>
+              <label class="m-0" style="font-size: 1.1rem;">เพิ่มสมาชิก</label>
+              <hr style="border-color: rgb(49, 49, 49);">
+            </div>
+            <input [(ngModel)]="this.email" type="email" placeholder="อีเมล"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.pass1" type="password" placeholder="รหัสผ่าน"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.pass2" type="password" placeholder="ยืนยันรหัสผ่าน"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.idCard" type="text" placeholder="รหัสบัตรประชาชน"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.titleName" type="text" placeholder="คำนำหน้าชื่อ"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.fullName" type="text" placeholder="ชื่อ นามสกุล"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.telephone" type="number" placeholder="เบอร์โทรศัพท์"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <input [(ngModel)]="this.creditUser" type="number" placeholder="จำนวนเครดิต"
+              class="form_txt mb-2 ng-untouched ng-pristine ng-valid">
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" (click)="submit()">Save changes</button>
+            </div>
+          </div>
+          <!-- Register End -->
+
+
         </div>
-
-
-
-
-        </div>
       </div>
-    </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">เพิ่มสมาชิก</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input [(ngModel)]="this.email" type="email" placeholder="อีเมล" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.pass1" type="password" placeholder="รหัสผ่าน" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.pass2" type="password" placeholder="ยืนยันรหัสผ่าน" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.idCard" type="text" placeholder="รหัสบัตรประชาชน" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.titleName" type="text" placeholder="คำนำหน้าชื่อ" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.fullName" type="text" placeholder="ชื่อ นามสกุล" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.telephone" type="number" placeholder="เบอร์โทรศัพท์" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-        <input [(ngModel)]="this.creditUser" type="number" placeholder="จำนวนเครดิต" class="form-control mb-2 ng-untouched ng-pristine ng-valid">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" (click)="submit()" data-dismiss="modal">Save changes</button>
-      </div>
     </div>
   </div>
 </div>

@@ -46,6 +46,8 @@ export class MemberComponent implements OnInit {
   public idCard: string;
   public telephone: string
   public creditUser: number;
+  public memberId: string;
+  public accActive: boolean;
 
   constructor(
     private MemberService: MemberService,
@@ -100,9 +102,21 @@ export class MemberComponent implements OnInit {
     this.MemberService.getMemberInfo(memberId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         this.memberInformation = result.serviceResult.value;
+        this.idCard = this.memberInformation['idcard'];
+        this.titleName = this.memberInformation['titleName'];
+        this.email = this.memberInformation['email'];
+        this.telephone = this.memberInformation['telephone'];
+        this.creditUser = this.memberInformation['credit'];
+        this.accActive = this.memberInformation['accActive'];
+        this.memberId = memberId;
+        this.fullName = this.memberInformation['firstName'] + " " + this.memberInformation['lastName'];
         this.getMenuManagement(memberId);
       }
     })
+  }
+
+  watchLog(memberId: string) {
+    this.router.navigate(['/history'], { queryParams: { memberId: memberId } });
   }
 
   getMenuManagement(memberId) {
@@ -115,6 +129,61 @@ export class MemberComponent implements OnInit {
     this.MemberService.getDisableMenu(memberId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
         this.disableMenuList = result.serviceResult.value;
+      }
+    })
+  }
+
+  onUpdate(memberId: string) {
+    this.loading(true);
+    if (!this.idCard || !this.email || !this.titleName || !this.fullName || !this.telephone) {
+      this.toast.error("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+      this.loading(false);
+    } else if (this.pass1 != this.pass2) {
+      this.toast.error("รหัสผ่านไม่ตรงกัน");
+      this.loading(false);
+    } else {
+      var token = uuidv4();
+      this.MemberService.updateUser(memberId, this.email, this.titleName, this.fullName, this.idCard, this.telephone, token, this.creditUser, this.accActive).subscribe(result => {
+        if (result.serviceResult.status == "Success") {
+          this.toast.success("บันทึกสำเร็จ");
+          this.loading(false);
+          this.getMember();
+        } else {
+          this.toast.error(result.serviceResult.text);
+          this.loading(false);
+        }
+      }, err => {
+        console.log(err);
+        this.loading(false);
+      })
+    }
+  }
+
+  onDelete(memberId: string) {
+    Swal.fire({
+      title: 'Warning !',
+      text: "คุณต้องการลบบัญชีนี้หรือไม่ ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ยืนยัน'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.MemberService.deleteUser(memberId).subscribe(result => {
+          if (result.serviceResult.status == "Success") {
+            Swal.fire(
+              'Success !',
+              'ลบสำเร็จ !',
+              'success'
+            ).then(ok => {
+              if (ok.isConfirmed) {
+                this.paged = 'main';
+                this.getMember();
+              }
+            })
+          }
+        })
       }
     })
   }
@@ -155,6 +224,8 @@ export class MemberComponent implements OnInit {
     } else if (page == 'apilog') {
       this.paged = 'apilog';
       this.getApi();
+    } else if (page == 'register') {
+      this.paged = 'register';
     }
   }
 
@@ -266,9 +337,9 @@ export class MemberComponent implements OnInit {
       var token = uuidv4();
       this.MemberService.register(this.email, this.pass2, this.titleName, this.fullName, this.idCard, this.telephone, token, this.creditUser).subscribe(result => {
         if (result.serviceResult.status == "Success") {
-              this.toast.success("ลงทะเบียนสำเร็จ");
-              this.loading(false);
-              this.getMember();
+          this.toast.success("ลงทะเบียนสำเร็จ");
+          this.loading(false);
+          this.getMember();
         } else {
           this.toast.error(result.serviceResult.text);
           this.loading(false);

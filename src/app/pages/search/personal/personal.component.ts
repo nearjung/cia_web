@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PersonalService } from '../../../service/personal.service';
 import { VehicleService } from '../../../service/vehicle.service';
-
+import Swal from 'sweetalert2'
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { MemberService } from '../../../service/member.service';
+import { ToolService } from '../../../service/tool.service';
+import { SharedService } from '../../../service/shared.service';
 @Component({
   selector: 'app-personal',
   templateUrl: './personal.component.html',
@@ -26,68 +28,259 @@ export class PersonalComponent implements OnInit {
   public personInfo = [];
   public contact = [];
   public workplace = [];
+  public provinceList = [];
+  public province: string = '';
   public vehicle = [];
   public showData: boolean = false;
   public idCard: string;
+  public isShowList: boolean = false;
+  public creditData: any;
+  public media: any = [];
+  public personImage: any;
+  public totalCredit: Number;
+  public logMasterId: Number;
 
   constructor(
     private PersonalService: PersonalService,
     private toast: ToastrService,
     private router: Router,
-    private VehicleService: VehicleService
-    , private routerActive: ActivatedRoute
+    private VehicleService: VehicleService,
+    private MemberService: MemberService,
+    private toolService: ToolService,
+    private route: ActivatedRoute,
+    private sharedService: SharedService
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
-      //location.reload();
       return;
     }
 
+    this.route.queryParams.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+      if (params['idCard']) {
+        this.userInfo(params['idCard']);
+      }
 
-    this.routerActive.queryParams.subscribe(params => {
-      this.searchTxt = params["searchTxt"];
-      this.idCard = params["idCard"];
+      if (params['logMasterId']) {
+        this.logMasterId = params['logMasterId'];
+        this.getListFromLog(params['logMasterId']);
+      }
     });
 
-    if (this.searchTxt) {
-      this.onSubmit();
-    }
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    window.removeEventListener('scroll', this.scroll, true);
   }
 
   ngOnInit(): void {
     this.loading(false);
+    this.creditList();
+    this.loadProvinces();
+
+    window.addEventListener('scroll', this.scroll, true); //third parameter
   }
 
-  onSearch() {
-    this.router.navigate(['/personal'], {
-      queryParams: {
-        searchTxt: this.searchTxt,
-      },
-    });
-    this.onSubmit();
+  scroll = (event: any): void => {
+    const number = event.srcElement.scrollTop;
+    const maxHeight = event.srcElement.scrollHeight;
+    // console.log(event);
+    // console.log('I am scrolling ' + number);
+
+    if(maxHeight === number) {
+      console.log("Buttom");
+    }
+  };
+
+  
+  bottomReached(): boolean {
+    return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
   }
 
-  onSubmit() {
+
+  loadProvinces() {
+    this.toolService.getProvinces().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.provinceList = result.serviceResult.value;
+      }
+    })
+  }
+
+  creditList() {
+    this.MemberService.getMenuList().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.creditData = result.serviceResult.value[0];
+      }
+    })
+  }
+
+  onInfo(IDCard: string) {
+    this.router.navigate(['personal'], { queryParams: { idCard: IDCard } });
+  }
+
+  getListFromLog(logMasterId: string) {
     this.dataList = [];
     this.dataTbl = false;
     this.dataTblVehicle = false;
     this.showData = true;
+    this.isShowList = false;
     this.loading(true);
-    this.PersonalService.getPersonal(this.searchTxt, this.user.email, this.user.password, this.user.member_id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+    this.MemberService.getLogById(this.user.member_id, logMasterId, this.user.authority).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       if (result.serviceResult.status == "Success") {
-        if (result.serviceResult.value && result.serviceResult.value.length > 0) {
-          this.dataList = result.serviceResult.value;
-          this.toast.success("พบข้อมูล : " + this.dataList.length + " rows");
+        var value = result.serviceResult.value;
+        for (let obj of value) {
+          var jsonData = JSON.parse(obj.data);
+          this.dataList.push(jsonData);
+        }
+        this.isShowList = true;
+      }
+      this.loading(false);
+    });
+  }
+
+  async onSubmit() {
+    this.dataList = [];
+    this.dataTbl = false;
+    this.dataTblVehicle = false;
+    this.showData = true;
+    this.isShowList = false;
+    this.loading(true);
+    if (!this.searchTxt) {
+      Swal.fire(
+        'Error !',
+        'กรุณากรอกชื่อหรือรหัสบัตรประชาชน',
+        'error'
+      );
+      this.loading(false);
+      return;
+    }
+    if (!+this.searchTxt) {
+      this.firstname = this.searchTxt.split(' ')[0];
+      this.lastname = this.searchTxt.split(' ')[1];
+    } else {
+      this.firstname = this.searchTxt;
+      this.lastname = undefined;
+    }
+    this.PersonalService.getPersonal(this.searchTxt, this.user.member_id, this.user.password, "Normal", this.province).pipe(takeUntil(this.ngUnsubscribe)).subscribe(async result => {
+      if (result.serviceResult.status == "Success") {
+        if (result.serviceResult.value) {
+          this.loading(false);
+          var valueData = result.serviceResult.value;
+          var price = this.creditData.menuPrice * valueData.length;
+          if (+valueData.length > 0) {
+            this.totalCredit = +valueData.length;
+            Swal.fire({
+              icon: 'success',
+              title: 'พบข้อมูล : ' + valueData.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              text: 'รวมทั้งสิ้น : ' + (this.creditData.menuPrice * valueData.length).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' เครดิต',
+              showConfirmButton: true,
+              showCancelButton: true,
+              confirmButtonText: 'ยืนยัน',
+              cancelButtonText: 'ยกเลิก',
+              confirmButtonColor: '#2dbf00',
+              cancelButtonColor: '#ff0000'
+            }).then(result => {
+              if (result.isConfirmed) {
+                this.isShowList = true;
+                this.loading(true);
+                this.MemberService.checkPoint(this.user.member_id, this.user.password, price).subscribe(result => {
+                  if (result.serviceResult.status == "Success") {
+                    // Reduce Credit
+                    this.MemberService.addCredit(this.user.email, price, 'reduce').subscribe(async result => {
+                      if (result.serviceResult.status == "Success") {
+                        this.dataList = valueData;
+
+                        var count = 0;
+
+                        var postData = {
+                          memberId: this.user.member_id,
+                          password: this.user.password,
+                          obj: this.dataList
+                        };
+
+                        this.PersonalService.getPersonalInfo(postData).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+                          if (result.serviceResult.status == "Success") {
+                            var dataSend: any = {};
+                            dataSend.dataMaster = {
+                              memberId: this.user.member_id,
+                              keySearch: this.searchTxt,
+                              module: "Personal"
+                            };
+                            dataSend.dataSub = this.dataList;
+                            // SendLog  
+                            this.MemberService.sendLog(dataSend).subscribe(result => {
+                            }, err => {
+                              console.log("Error: " + err);
+                            });
+
+                            // Update Credit
+                            this.sharedService.sendClickEvent();
+                          }
+                        })
+
+
+                        // for (let data of this.dataList) {
+                        //   this.PersonalService.getPersonalInfo(data.IDCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+                        //     if (result.serviceResult.status == "Success") {
+                        //       data.personInfo = result.serviceResult.value;
+                        //       count++;
+                        //     }
+
+                        //     if (count == this.dataList.length) {
+                        //       var dataSend: any = {};
+                        //       dataSend.dataMaster = {
+                        //         memberId: this.user.member_id,
+                        //         keySearch: this.searchTxt,
+                        //         module: "Personal"
+                        //       };
+                        //       dataSend.dataSub = this.dataList;
+                        //       // SendLog  
+                        //       this.MemberService.sendLog(dataSend).subscribe(result => {
+                        //       }, err => {
+                        //         console.log("Error: " + err);
+                        //       });
+
+                        //     }
+                        //   })
+                        // }
+
+
+                      }
+                    }, err => {
+                      console.log(err);
+                    });
+                  } else {
+                    Swal.fire(
+                      'Error !',
+                      'จำนวน Credit ไม่เพียงพอ',
+                      'error'
+                    )
+                  }
+                }, err => {
+                  console.log(err);
+                });
+                this.loading(false);
+              }
+            });
+          } else {
+            Swal.fire(
+              'Error !',
+              'ไม่พบข้อมูล',
+              'error'
+            );
+            this.loading(false);
+          }
         } else {
           this.toast.error("ไม่พบข้อมูลในระบบ !");
+          this.loading(false);
         }
-        this.loading(false);
       } else {
+        Swal.fire(
+          'Error !',
+          result.serviceResult.text,
+          'error'
+        );
         this.loading(false);
       }
     }, err => {
@@ -117,28 +310,28 @@ export class PersonalComponent implements OnInit {
   }
 
   userInfo(idCard: string) {
-    this.loading(true);
     this.idCard = idCard;
     this.dataTbl = true;
     this.showData = true;
     this.personInfo = [];
     this.contact = [];
     this.workplace = [];
-    this.PersonalService.getPersonalInfo(idCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-      if (result.serviceResult.status == "Success") {
-        this.personInfo = result.serviceResult.value;
-        this.loading(false);
-        if (result.serviceResult.value && result.serviceResult.value.customer) {
-          this.contact = result.serviceResult.value.customer;
+    // if (this.logMasterId) {
+    //   this.personInfo = this.dataList.filter(x => x['IDCard'] == idCard)[0].personInfo;
+    //   if (this.personInfo['ImageData']) {
+    //     this.personImage = this.hexToBase64(this.personInfo['ImageData']).replace("ANj/", "/9j/");
+    //   }
+    // } else {
+      this.PersonalService.getPersonalInfoSingle(idCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+        if (result.serviceResult.status == "Success") {
+          this.personInfo = result.serviceResult.value;
+          // this.hexToBase64()
+          this.personImage = this.hexToBase64(result.serviceResult.value.ImageData).replace("ANj/", "/9j/");
         }
-        if (result.serviceResult.value && result.serviceResult.value.working) {
-          this.workplace = result.serviceResult.value.working;
-        }
-      }
-    }, err => {
-      this.loading(false);
-      this.toast.error(err);
-    })
+      }, err => {
+        this.toast.error(err);
+      });
+    // }
   }
 
   loading(show) {
@@ -147,6 +340,12 @@ export class PersonalComponent implements OnInit {
     } else {
       eval("$('#hm-loading-box').fadeOut();");
     }
+  }
+
+  hexToBase64(str) {
+    return btoa(String.fromCharCode.apply(null,
+      str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
+    );
   }
 
   back(mode) {

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import * as json2csv from 'json2csv'; // convert json file to csv
 import { saveAs } from 'file-saver';  // save the file
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class DownloadFileService {
     Json2csvParser = json2csv.Parser;
     constructor() {
@@ -10,7 +12,7 @@ export class DownloadFileService {
     }
     public downloadFile(data: any, filename?: string) {
         let csvData = this.convertToCSV(data);
-        let file = new Blob(["\ufeff"+ csvData], { type: 'text/csv;charset=utf-8' });
+        let file = new Blob(["\ufeff" + csvData], { type: 'text/csv;charset=utf-8' });
         saveAs(file, new Date() + ".csv");
     }
 
