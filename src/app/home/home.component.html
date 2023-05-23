@@ -12,6 +12,17 @@
       </mat-card>
     </div>
     <div class="col-sm-3 mb-1">
+      <!-- <div class="col-sm-3 mb-1" *ngIf="menuActive.personal"> -->
+      <mat-card (click)="navigate('phone')" class="hover mat-card card-hover text-center">
+        <mat-card-header class="mat-card-header">
+          <img alt="ไอคอน" class="mat-card-avatar" mat-card-avatar="" style="border-radius: 0" src="./assets/images/phone-svgrepo-com.svg">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">ระบบค้นหาเบอร์โทรศัพท์</mat-card-title>
+          </div>
+        </mat-card-header>
+      </mat-card>
+    </div>
+    <div class="col-sm-3 mb-1">
       <!-- <div class="col-sm-3 mb-1" *ngIf="menuActive.company"> -->
       <mat-card (click)="navigate('company')" class="hover mat-card card-hover text-center">
         <mat-card-header class="mat-card-header">

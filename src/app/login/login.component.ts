@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('userData');
+    localStorage.clear();
   }
 
   ngOnDestroy() {

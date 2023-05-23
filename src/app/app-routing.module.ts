@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { HistoryComponent } from './pages/search/history/history.component';
 import { ExcelSearchComponent } from './pages/search/excelsearch/excelsearch.component';
+import { TelephoneComponent } from './pages/search/telephone/telephone.component';
 
 const routes: Routes = [
   { path: 'pages', loadChildren: './pages/pages.module#PagesModule' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'personal', component: PersonalComponent },
+  { path: 'phone', component: TelephoneComponent },
   { path: 'company', component: CompanyComponent },
   { path: 'vehicle', component: VehicleComponent },
   { path: 'tool', component: ToolComponent },

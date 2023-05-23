@@ -67,6 +67,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NgxCsvParserModule } from 'ngx-csv-parser';
+import { TelephoneComponent } from './pages/search/telephone/telephone.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { NgxCsvParserModule } from 'ngx-csv-parser';
     ActiveComponent,
     ForgetpassComponent,
     HistoryComponent,
-    ExcelSearchComponent
+    ExcelSearchComponent,
+    TelephoneComponent
   ],
   imports: [
     BrowserModule,

@@ -87,6 +87,8 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['history']);
     } else if (page == "excelsearch") {
       this.router.navigate(['excelsearch']);
+    } else if (page == "phone") {
+      this.router.navigate(['phone']);
     }
   }
 }

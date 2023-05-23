@@ -1,13 +1,16 @@
 <mat-toolbar color="primary">
-    <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
-        aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <span>CIA Data | Credit : {{ credit | number }}</span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-        <mat-icon (click)="navigate('profile');">person</mat-icon>
-    </button>
+    <ng-container *ngIf="user">
+        <button (click)="drawer.toggle()" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>CIA Data | Credit : {{ credit | number }}</span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+            <mat-icon (click)="navigate('profile');">person</mat-icon>
+        </button>
+    </ng-container>
+    <ng-container *ngIf="!user">Welcome to CIA Data information</ng-container>
 </mat-toolbar>
 
 <mat-drawer-container autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 60px;">
@@ -15,6 +18,7 @@
         <mat-action-list class="side-content">
             <button (click)="navigate('home'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/home-svgrepo-com.svg"> หน้าหลัก </button>
             <button (click)="navigate('personal'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/policeman-svgrepo-com.svg"> ระบบค้นหาบุคคล </button>
+            <button (click)="navigate('phone'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/phone-svgrepo-com.svg"> ระบบค้นหาเบอร์โทรศัพท์ </button>
             <button (click)="navigate('company'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/business-bag-svgrepo-com.svg"> ระบบค้นหาบริษัท </button>
             <button (click)="navigate('vehicle'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/car-svgrepo-com.svg"> ระบบค้นหาพาหนะ </button>
             <button (click)="navigate('excelsearch'); drawer.toggle()" mat-list-item><img alt="ไอคอน" style="border-radius: 0;" src="./assets/images/csv-svgrepo-com.svg"> ระบบค้นหาด้วย Excel </button>
