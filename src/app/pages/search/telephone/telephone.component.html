@@ -30,18 +30,12 @@
             <table class="table table-hover table-striped table-dark" style="max-width: 100%;">
               <thead>
                 <tr>
-                  <th scope="col">รหัสบัตรประชาชน</th>
                   <th scope="col">ชื่อ-นามสกุล</th>
-                  <th scope="col">เพศ</th>
-                  <th scope="col">อายุ</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let data of dataList" style="cursor: pointer;" (click)="userInfo(data.IDCard)">
-                  <th scope="row">{{data.IDCard}}</th>
-                  <td>{{ data.CTitle }}{{ data.CFname }} {{ data.CLname }}</td>
-                  <td>{{ data.Gender }}</td>
-                  <td>{{ (data.BYear)?year - data.BYear:'-' }}</td>
+                <tr *ngFor="let data of dataList" style="cursor: pointer;">
+                  <td>{{ data.FName }}&nbsp;&nbsp;{{ data.Lname }}</td>
                 </tr>
               </tbody>
             </table>

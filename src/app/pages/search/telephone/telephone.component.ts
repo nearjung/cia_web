@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MemberService } from '../../../service/member.service';
 import { ToolService } from '../../../service/tool.service';
 import { SharedService } from '../../../service/shared.service';
+import { PhoneService } from 'src/app/service/phone.service';
 @Component({
   selector: 'app-telephone',
   templateUrl: './telephone.component.html',
@@ -48,7 +49,7 @@ export class TelephoneComponent implements OnInit {
     private MemberService: MemberService,
     private toolService: ToolService,
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private phoneService: PhoneService
   ) {
     if (!this.user) {
       this.router.navigate(['/login']);
@@ -88,12 +89,12 @@ export class TelephoneComponent implements OnInit {
     // console.log(event);
     // console.log('I am scrolling ' + number);
 
-    if(maxHeight === number) {
+    if (maxHeight === number) {
       console.log("Buttom");
     }
   };
 
-  
+
   bottomReached(): boolean {
     return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
   }
@@ -140,154 +141,36 @@ export class TelephoneComponent implements OnInit {
   }
 
   async onSubmit() {
-    this.dataList = [];
-    this.dataTbl = false;
-    this.dataTblVehicle = false;
-    this.showData = true;
-    this.isShowList = false;
     this.loading(true);
-    if (!this.searchTxt) {
-      Swal.fire(
-        'Error !',
-        'กรุณากรอกเบอร์โทรศัพท์ที่ต้องการ',
-        'error'
-      );
-      this.loading(false);
-      return;
-    }
-    if (!+this.searchTxt) {
-      this.firstname = this.searchTxt.split(' ')[0];
-      this.lastname = this.searchTxt.split(' ')[1];
-    } else {
-      this.firstname = this.searchTxt;
-      this.lastname = undefined;
-    }
-    this.PersonalService.getPersonal(this.searchTxt, this.user.member_id, this.user.password, "Normal", this.province).pipe(takeUntil(this.ngUnsubscribe)).subscribe(async result => {
-      if (result.serviceResult.status == "Success") {
-        if (result.serviceResult.value) {
-          this.loading(false);
-          var valueData = result.serviceResult.value;
-          var price = this.creditData.menuPrice * valueData.length;
-          if (+valueData.length > 0) {
-            this.totalCredit = +valueData.length;
-            Swal.fire({
-              icon: 'success',
-              title: 'พบข้อมูล : ' + valueData.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-              text: 'รวมทั้งสิ้น : ' + (this.creditData.menuPrice * valueData.length).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' เครดิต',
-              showConfirmButton: true,
-              showCancelButton: true,
-              confirmButtonText: 'ยืนยัน',
-              cancelButtonText: 'ยกเลิก',
-              confirmButtonColor: '#2dbf00',
-              cancelButtonColor: '#ff0000'
-            }).then(result => {
-              if (result.isConfirmed) {
-                this.isShowList = true;
-                this.loading(true);
-                this.MemberService.checkPoint(this.user.member_id, this.user.password, price).subscribe(result => {
-                  if (result.serviceResult.status == "Success") {
-                    // Reduce Credit
-                    this.MemberService.addCredit(this.user.email, price, 'reduce').subscribe(async result => {
-                      if (result.serviceResult.status == "Success") {
-                        this.dataList = valueData;
-
-                        var count = 0;
-
-                        var postData = {
-                          memberId: this.user.member_id,
-                          password: this.user.password,
-                          obj: this.dataList
-                        };
-
-                        this.PersonalService.getPersonalInfo(postData).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-                          if (result.serviceResult.status == "Success") {
-                            var dataSend: any = {};
-                            dataSend.dataMaster = {
-                              memberId: this.user.member_id,
-                              keySearch: this.searchTxt,
-                              module: "Personal"
-                            };
-                            dataSend.dataSub = this.dataList;
-                            // SendLog  
-                            this.MemberService.sendLog(dataSend).subscribe(result => {
-                            }, err => {
-                              console.log("Error: " + err);
-                            });
-
-                            // Update Credit
-                            this.sharedService.sendClickEvent();
-                          }
-                        })
+    this.dataList = [];
+    this.phoneService.get(this.searchTxt).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status === "Success") {
+        this.dataList.push(result.serviceResult.value);
+        this.dataTbl = false;
+        this.isShowList = true;
+        this.loading(false);
 
 
-                        // for (let data of this.dataList) {
-                        //   this.PersonalService.getPersonalInfo(data.IDCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-                        //     if (result.serviceResult.status == "Success") {
-                        //       data.personInfo = result.serviceResult.value;
-                        //       count++;
-                        //     }
-
-                        //     if (count == this.dataList.length) {
-                        //       var dataSend: any = {};
-                        //       dataSend.dataMaster = {
-                        //         memberId: this.user.member_id,
-                        //         keySearch: this.searchTxt,
-                        //         module: "Personal"
-                        //       };
-                        //       dataSend.dataSub = this.dataList;
-                        //       // SendLog  
-                        //       this.MemberService.sendLog(dataSend).subscribe(result => {
-                        //       }, err => {
-                        //         console.log("Error: " + err);
-                        //       });
-
-                        //     }
-                        //   })
-                        // }
-
-
-                      }
-                    }, err => {
-                      console.log(err);
-                    });
-                  } else {
-                    Swal.fire(
-                      'Error !',
-                      'จำนวน Credit ไม่เพียงพอ',
-                      'error'
-                    )
-                  }
-                }, err => {
-                  console.log(err);
-                });
-                this.loading(false);
-              }
-            });
-          } else {
-            Swal.fire(
-              'Error !',
-              'ไม่พบข้อมูล',
-              'error'
-            );
-            this.loading(false);
-          }
-        } else {
-          this.toast.error("ไม่พบข้อมูลในระบบ !");
-          this.loading(false);
-        }
+        var dataSend: any = {};
+        dataSend.dataMaster = {
+          memberId: this.user.member_id,
+          keySearch: this.searchTxt,
+          module: "Telephone"
+        };
+        dataSend.dataSub = JSON.stringify(this.dataList);
+        // SendLog  
+        this.MemberService.sendLog(dataSend).subscribe(result => {
+        }, err => {
+          console.log("Error: " + err);
+        });
       } else {
-        Swal.fire(
-          'Error !',
-          result.serviceResult.text,
-          'error'
-        );
+        Swal.fire("Error !", "ไม่พบข้อมูล", "error");
         this.loading(false);
       }
     }, err => {
-      this.toast.error(err);
+      console.error(err.message);
       this.loading(false);
-    })
-
+    });
   }
 
   vehicleInfo(plate1: string, plate2: string, numbody: string = '', numengine: string = '', mode: string = 'car') {
@@ -322,15 +205,15 @@ export class TelephoneComponent implements OnInit {
     //     this.personImage = this.hexToBase64(this.personInfo['ImageData']).replace("ANj/", "/9j/");
     //   }
     // } else {
-      this.PersonalService.getPersonalInfoSingle(idCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-        if (result.serviceResult.status == "Success") {
-          this.personInfo = result.serviceResult.value;
-          // this.hexToBase64()
-          this.personImage = this.hexToBase64(result.serviceResult.value.ImageData).replace("ANj/", "/9j/");
-        }
-      }, err => {
-        this.toast.error(err);
-      });
+    this.PersonalService.getPersonalInfoSingle(idCard, this.user.member_id, this.user.password).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+      if (result.serviceResult.status == "Success") {
+        this.personInfo = result.serviceResult.value;
+        // this.hexToBase64()
+        this.personImage = this.hexToBase64(result.serviceResult.value.ImageData).replace("ANj/", "/9j/");
+      }
+    }, err => {
+      this.toast.error(err);
+    });
     // }
   }
 
