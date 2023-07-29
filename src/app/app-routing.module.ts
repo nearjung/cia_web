@@ -17,7 +17,7 @@ import { ExcelSearchComponent } from './pages/search/excelsearch/excelsearch.com
 import { TelephoneComponent } from './pages/search/telephone/telephone.component';
 
 const routes: Routes = [
-  { path: 'pages', loadChildren: './pages/pages.module#PagesModule' },
+  { path: 'pages', loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
